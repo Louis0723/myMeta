@@ -1,0 +1,146 @@
+let path = require('path');
+let HtmlWebpackPlugin = require('html-webpack-plugin'); //打包到某某目錄
+let webpack = require('webpack');
+let ExtractTextPlugin = require('extract-text-webpack-plugin'); //處理css 之類的
+let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+let {
+  CheckerPlugin
+} = require('awesome-typescript-loader'); // 緩存加速ts 編譯
+let basePath = __dirname;
+
+module.exports = {
+  // target: 'electron-renderer', // 給electron用
+  context: path.join(basePath, 'src'), // src目錄
+  resolve: {
+    extensions: ['.ts', '.js', '.jsx', '.scss'], //支持的擴充名,需要 rules loader 配合
+  },
+  entry: { // 進入點 使 index.html載入 
+    app: [ // 匯出後js 名稱
+      'react-hot-loader/patch',
+      './index.jsx',
+    ],
+    vendor: [ // 外部資源
+      'react',
+      'react-dom',
+      'jquery',
+    ],
+    vendorStyles: [ // 外部資源
+      '../node_modules/bootstrap/dist/css/bootstrap.css',
+    ],
+  },
+  output: { // 輸出目錄和名稱規則
+    path: path.join(basePath, 'dist'), // 匯出目錄 dist
+    filename: '[name].js', // [name] 來自 entry
+  },
+  module: {
+    rules: [ //規則
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/, //不要去爬 node_modules
+        loader: 'awesome-typescript-loader',
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract({ // 還不是很了解 ExtractTextPlugin.extract 怎麼用,複製貼上就是
+          fallback: 'style-loader',
+          use: [{
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+                camelCase: true,
+              },
+            },
+            {
+              loader: 'sass-loader',
+            },
+          ],
+        }),
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+          },
+        }),
+      },
+      // Loading glyphicons => https://github.com/gowravshekar/bootstrap-webpack
+      // Using here url-loader and file-loader
+      {
+        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader?limit=5000',
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
+      {test: require.resolve('jquery'), loader: 'expose-loader?jQuery'},
+    ],
+  },
+  // For development https://webpack.js.org/configuration/devtool/#for-development
+  devtool: 'inline-source-map', //老實說不知道怎麼用它
+  devServer: {
+    port: 8080,
+    hot: true,
+  },
+  plugins: [
+    // new UglifyJsPlugin({ // 壓縮混淆
+    //   uglifyOptions: {
+    //     compress: true,
+    //     warnings: true,
+    //   }  
+    // }),
+    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      filename: 'index.html', //Name of file in ./dist/
+      template: 'index.html', //Name of template in ./src
+      hash: true,
+    }),
+    new webpack.ProvidePlugin({ // *這是給js 用的嗎? 開發工具 都找不到 $,jQuery
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+    new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
+      names: [ 'vendor', 'manifest'],
+    }),
+    new webpack.HashedModuleIdsPlugin(),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: true,
+      allChunks: true,
+    }),
+    new CheckerPlugin(), // 緩存加速ts 編譯
+    new webpack.HotModuleReplacementPlugin(), // 熱修改 使[chunkhash]. 省略
+  ],
+};

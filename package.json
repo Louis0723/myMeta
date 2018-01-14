@@ -1,0 +1,63 @@
+{
+  "name": "css-modules",
+  "version": "1.0.0",
+  "description": "Front-End Lemoncode Master, Bundle Modules, Webpack Demo 03 Environments - 02 CSS Modules",
+  "main": "index.js",
+  "scripts": {
+    "install": "git clone https://github.com/ethereum/web3.js src/web3 && npm i",
+    "start": "webpack-dev-server",
+    "build": "rimraf dist && webpack",
+    "build:prod": "rimraf dist && webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lemoncode/webpack-3.x-by-sample.git"
+  },
+  "author": "Lemoncode",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lemoncode/webpack-3.x-by-sample/issues"
+  },
+  "homepage": "https://github.com/Lemoncode/webpack-3.x-by-sample#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.4.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "electron": "^1.7.10",
+    "expose-loader": "^0.7.4",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "html-loader": "^0.5.4",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.5.3",
+    "npm-install-webpack-plugin": "^4.0.5",
+    "react-hot-loader": "^3.1.3",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "typescript": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.5.6",
+    "webpack-dev-server": "^2.8.0"
+  },
+  "dependencies": {
+    "bitcoinjs-lib": "^3.3.2",
+    "bootstrap": "^3.3.7",
+    "bs58": "^4.0.1",
+    "crypto-js": "^2.5.4",
+    "ethereumjs-tx": "^1.3.3",
+    "ethereumjs-util": "^5.1.3",
+    "ethereumjs-wallet": "^0.6.0",
+    "ethers": "^2.1.3",
+    "jquery": "^3.2.1",
+    "keythereum": "^1.0.2",
+    "lodash": "^4.17.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "rxjs": "^5.5.6"
+  }
+}
