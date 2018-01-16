@@ -5,6 +5,8 @@ import { Tabs, Tab, Label } from 'react-bootstrap';
 import { Observable } from 'rxjs'
 import * as Web3 from './web3'
 
+import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+
 
 export class EthMainComponent extends React.Component {
   constructor(props) {
@@ -48,10 +50,16 @@ export class EthMainComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>address:{this.state.address}</div>
-        <div>balance:{this.state.balance}</div>
-      </div>
+      <Form>
+        <FormGroup>
+          <ControlLabel>Balance:</ControlLabel>
+          <FormControl value={this.state.balance} disabled />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Address:</ControlLabel>
+          <FormControl value={this.state.address} disabled />
+        </FormGroup>
+      </Form>
 
     )
   }

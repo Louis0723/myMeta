@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { parseWIF } from './tx';
-
-import { Tabs, Tab, Label } from 'react-bootstrap';
 import { Observable } from 'rxjs'
 import { ECPair } from 'bitcoinjs-lib'
-
+import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
 
 export class BtcMainComponent extends React.Component {
   constructor(props) {
@@ -48,7 +46,7 @@ export class BtcMainComponent extends React.Component {
     })
 
   }
-  
+
   componentWillUnmount() {
     this.getBalanceObSub.unsubscribe();
     this.getBalanceObSub.remove();
@@ -56,12 +54,24 @@ export class BtcMainComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>address:{this.state.address}</div>
-        <div>publicKey:{this.state.publicKey}</div>
-        <div>wif:{this.state.wif}</div>
-        <div>balance:{this.state.balance}</div>
-      </div>
+      <Form>
+        <FormGroup>
+          <ControlLabel>Balance:</ControlLabel>
+          <FormControl value={this.state.balance} disabled />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Address:</ControlLabel>
+          <FormControl value={this.state.publicKey} disabled />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>PublicKey:</ControlLabel>
+          <FormControl value={this.state.address} disabled />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Wif:</ControlLabel>
+          <FormControl value={this.state.wif} disabled />
+        </FormGroup>
+      </Form>
 
     )
   }
