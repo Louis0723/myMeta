@@ -28,7 +28,7 @@ export class BtcMainComponent extends React.Component {
     this.getBalanceOb = Observable.interval(3000).mergeMap(() => {
       return Observable.create((observer) => {
         jQuery.ajax({
-          url: 'https://blockchain.info/q/addressbalance/1FrtVEpdCfvrKJMB7HzfGC8u6JNh75yzDi',
+          url: `https://blockchain.info/q/addressbalance/${this.state.address}`,
           error: (error) => {
             observer.error(error);
             observer.complete();
@@ -42,7 +42,8 @@ export class BtcMainComponent extends React.Component {
       })
     })
     this.getBalanceObSub = this.getBalanceOb.subscribe((data) => {
-      data = Number(data).toFixed(8);
+      data = data.padStart(9, '0');
+      data = data.replace(/(\d{8})$/, '.$1');
       this.setState({ balance: data });
     })
 
