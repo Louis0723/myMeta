@@ -27,7 +27,7 @@ export class KeyComponent extends React.Component {
     let regnums = (pass.match(/[0-9]+/g)) ? pass.match(/[0-9]+/g).length : 1;
     s += ((regnums + regchars) + regupchars) * pass.length + '3571';
     s += (s + '' + s);
-    for (let i = 0; i <= 50; i++) {
+    for (let i = 0; i <= 51; i++) {
       s = sha256(s).toString('hex');
     };
 

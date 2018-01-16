@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { KeyComponent } from './key';
 import * as Web3 from './web3';
-import { outputPayload, outputRawTx, sign, privateKeyStringToBuffer } from './tx.js';
+import { outputPayload, outputRawTx, sign, privateKeyStringToBuffer ,parseWIF} from './tx.js';
 import { sha256 } from 'ethereumjs-util';
 
 let  wallet = require('ethereumjs-wallet')
-
-
-console.log(sha256('he'))
-
 
 
 let web3 = new Web3();
@@ -22,9 +18,9 @@ let privateKeyString = 'daac1435cdd5a4aece27643f4ac287a6dadbf56b5ce0bb0b29d41d6b
 
 let payload = outputPayload(abi, 'voteForCandidate', 0, 'Alice');
 let tx=outputRawTx(account,walletContractAddress,payload,0);
-let buufferKey=privateKeyStringToBuffer(privateKeyString);
-let txSigned=sign(buufferKey,tx);
-
+let bufferKey=privateKeyStringToBuffer(privateKeyString);
+let txSigned=sign(bufferKey,tx);
+console.log('wif',parseWIF(bufferKey))
 
 
 // web3.eth.sendRawTransaction(txSigned, function (err, hash) {

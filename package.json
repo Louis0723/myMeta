@@ -4,7 +4,6 @@
   "description": "Front-End Lemoncode Master, Bundle Modules, Webpack Demo 03 Environments - 02 CSS Modules",
   "main": "index.js",
   "scripts": {
-    "install": "git clone https://github.com/ethereum/web3.js src/web3 && npm i",
     "start": "webpack-dev-server",
     "build": "rimraf dist && webpack",
     "build:prod": "rimraf dist && webpack -p"

@@ -3,6 +3,13 @@ import * as Web3 from './web3';
 import * as EthereumTx from 'ethereumjs-tx';
 import * as SolidityFunction from './web3/lib/web3/function';
 import * as wallet from 'ethereumjs-wallet';
+import {
+  sha256
+} from 'ethereumjs-util';
+import * as bs58 from 'bs58';
+import {
+  Buffer
+} from 'buffer';
 
 
 let web3 = new Web3();
@@ -45,5 +52,15 @@ export function sign(privateKeyBuffer, tx) {
 
 
 export function privateKeyStringToBuffer(privateKeyString) {
-    return new Buffer(privateKeyString,'hex')
+  return new Buffer(privateKeyString, 'hex')
+}
+
+export function parseWIF(privateKeyBuffer) {
+  let wif = [...privateKeyBuffer]
+  wif.push(0x01);
+  wif.unshift(0x80);
+  var hash = sha256(sha256(wif));
+  var checksum = hash.slice(0, 4);
+  wif = wif.concat(...checksum);
+  return bs58.encode(wif);
 }
