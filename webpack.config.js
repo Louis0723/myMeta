@@ -29,7 +29,7 @@ module.exports = {
     ],
   },
   output: { // 輸出目錄和名稱規則
-    path: path.join(basePath, 'dist'), // 匯出目錄 dist
+    path: path.join(basePath, 'docs'), // 匯出目錄 docs
     filename: '[name].js', // [name] 來自 entry
   },
   module: {
@@ -121,9 +121,9 @@ module.exports = {
     //     warnings: true,
     //   }  
     // }),
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    //Generate index.html in /docs => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'index.html', //Name of file in ./dist/
+      filename: 'index.html', //Name of file in ./docs/
       template: 'index.html', //Name of template in ./src
       hash: true,
     }),

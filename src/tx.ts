@@ -24,7 +24,7 @@ export function outputPayload(abi, contractName, ether = '', ...args) {
 }
 
 
-export function outputRawTx(from, to, payloadData, ether = '0x00') {
+export function outputRawTx(from, to, payloadData, ether = '0x00'): EthereumTx {
   let nonce = web3.eth.getTransactionCount(from);
   let nonceHex = web3.toHex(nonce);
   let gasPrice = web3.eth.gasPrice;
@@ -44,23 +44,41 @@ export function outputRawTx(from, to, payloadData, ether = '0x00') {
 }
 
 
-export function sign(privateKeyBuffer, tx) {
+export function sign(privateKeyBuffer: Buffer, tx: EthereumTx): string {
   tx.sign(privateKeyBuffer);
   let serializedTx = tx.serialize();
   return `0x${serializedTx.toString('hex')}`
 }
 
 
-export function privateKeyStringToBuffer(privateKeyString) {
+export function privateKeyStringToBuffer(privateKeyString): Buffer {
   return new Buffer(privateKeyString, 'hex')
 }
 
-export function parseWIF(privateKeyBuffer) {
-  let wif = [...privateKeyBuffer]
+export function parseWIF(privateKeyBuffer: Buffer): Buffer {
+  let wif = [].concat(...<any>privateKeyBuffer);
   wif.push(0x01);
   wif.unshift(0x80);
   var hash = sha256(sha256(wif));
   var checksum = hash.slice(0, 4);
   wif = wif.concat(...checksum);
   return bs58.encode(wif);
+}
+
+
+export function makePrivateKey(email: string, password: string) {
+  /* from coinb.in */
+  let s = email;
+  s += '|' + password + '|';
+  s += s.length + '|!@' + ((password.length * 7) + email.length) * 7;
+  let regchars = (password.match(/[a-z]+/g)) ? password.match(/[a-z]+/g).length : 1;
+  let regupchars = (password.match(/[A-Z]+/g)) ? password.match(/[A-Z]+/g).length : 1;
+  let regnums = (password.match(/[0-9]+/g)) ? password.match(/[0-9]+/g).length : 1;
+  s += ((regnums + regchars) + regupchars) * password.length + '3571';
+  s += (s + '' + s);
+  for (let i = 0; i <= 51; i++) {
+    s = sha256(s).toString('hex');
+  };
+
+  return s;
 }
