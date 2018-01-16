@@ -51,26 +51,21 @@ export class LoginComponent extends React.Component {
   setNewPrivateKey(event) {
     if (this.state.email !== '' && this.state.password !== '') {
       if (!(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(this.state.email))) {
-        console.log(1)
         event.preventDefault()
         return
       }
       if (!(/.{8,}/.test(this.state.password))) {
-        console.log(2)
         event.preventDefault()
         return
       }
     } else if (Number(this.state.email === '') ^ Number(this.state.password === '')) {
-      console.log(3)
       event.preventDefault()
       return
     } else if (!(/^(0x)?[a-f0-9]+$/.test(this.state.privateKeyInput))) {
-      console.log(4)
       event.preventDefault()
       return
     }
     if (this.state.privateKeyInput.length === 66 || this.state.privateKeyInput.length === 64) {
-      console.log(5)
       let privateKey = this.state.privateKeyInput;
       let keys = localStorage.getItem('privateKeys');
       keys = !keys ? [] : JSON.parse(keys)

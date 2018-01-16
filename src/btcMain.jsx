@@ -7,15 +7,12 @@ import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootst
 export class BtcMainComponent extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
     let priv = props.privateKey;
     let wif = parseWIF(new Buffer(props.privateKey, 'hex'));
-    console.log(wif)
     let ecPair = ECPair.fromWIF(wif)
     let address = ecPair.getAddress()
     let publicKeyBuffer = ecPair.getPublicKeyBuffer()
     let publicKey = publicKeyBuffer.toString('hex')
-    console.log(publicKey)
     this.state = {
       privateKey: priv,
       wif: wif,
