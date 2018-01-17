@@ -12,13 +12,16 @@ module.exports = {
   // target: 'electron-renderer', // 給electron用
   context: path.join(basePath, 'src'), // src目錄
   resolve: {
-    extensions: ['.ts', '.js', '.jsx', '.scss'], //支持的擴充名,需要 rules loader 配合
+    extensions: ['.ts', '.js', '.tsx', '.jsx', '.scss'], //支持的擴充名,需要 rules loader 配合
   },
   entry: { // 進入點 使 index.html載入 
     app: [ // 匯出後js 名稱
       'react-hot-loader/patch',
       './index.jsx',
     ],
+    // electronMain:[
+    //   './electronMain.js'
+    // ],
     vendor: [ // 外部資源
       'react',
       'react-dom',
@@ -35,12 +38,7 @@ module.exports = {
   module: {
     rules: [ //規則
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/, //不要去爬 node_modules
         loader: 'awesome-typescript-loader',
       },
@@ -105,7 +103,10 @@ module.exports = {
         test: /\.html$/,
         loader: 'html-loader',
       },
-      {test: require.resolve('jquery'), loader: 'expose-loader?jQuery'},
+      {
+        test: require.resolve('jquery'),
+        loader: 'expose-loader?jQuery'
+      },
     ],
   },
   // For development https://webpack.js.org/configuration/devtool/#for-development
@@ -132,7 +133,7 @@ module.exports = {
       jQuery: "jquery"
     }),
     new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
-      names: [ 'vendor', 'manifest'],
+      names: ['vendor', 'manifest'],
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ExtractTextPlugin({

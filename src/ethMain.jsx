@@ -60,7 +60,6 @@ export class EthMainComponent extends React.Component {
           <FormControl value={this.state.address} disabled />
         </FormGroup>
       </Form>
-
     )
   }
 }

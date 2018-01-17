@@ -1,12 +1,16 @@
 {
-  "name": "css-modules",
-  "version": "1.0.0",
+  "name": "thewallet",
+  "version": "0.3.0",
   "description": "Front-End Lemoncode Master, Bundle Modules, Webpack Demo 03 Environments - 02 CSS Modules",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
+    "install": "./install.sh",
     "build": "rimraf dist && webpack",
-    "build:prod": "rimraf dist && webpack -p"
+    "build:prod": "rimraf dist && webpack -p",
+    "buildWindows": "electron-packager ./docs --platform=win32 --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules",
+    "buildMacOS": "electron-packager ./docs --platform=darwin --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules",
+    "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules"
   },
   "repository": {
     "type": "git",
@@ -26,9 +30,12 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
     "electron": "^1.7.10",
+    "electron-packager": "^10.1.1",
     "expose-loader": "^0.7.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
+    "grunt": "^1.0.1",
+    "grunt-electron-installer": "^2.1.0",
     "html-loader": "^0.5.4",
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.5.3",
@@ -37,6 +44,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.5.9",
