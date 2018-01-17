@@ -24,22 +24,25 @@ export function outputPayload(abi, contractName, ether = '', ...args) {
 }
 
 
-export function outputRawTx(from, to, payloadData, ether = '0x00'): EthereumTx {
+export function outputRawTx(from, to, ether = '0',gasLimit, gasPrice , payloadData?): EthereumTx {
   let nonce = web3.eth.getTransactionCount(from);
   let nonceHex = web3.toHex(nonce);
-  let gasPrice = web3.eth.gasPrice;
+  // let gasPrice = web3.eth.gasPrice;
+  let etherHex= web3.toHex(ether);
+  let gasLimitHex = web3.toHex(gasLimit);
   let gasPriceHex = web3.toHex(gasPrice);
-  let gasLimitHex = web3.toHex(300000);
 
-  let rawTx = {
+  let rawTx: any = {
     nonce: nonceHex,
     gasPrice: gasPriceHex,
     gasLimit: gasLimitHex,
     to: to,
     from: from,
-    data: payloadData,
-    value: ether,
+    value: etherHex,
   };
+  console.log(rawTx)
+  payloadData && (rawTx.data = payloadData);
+
   return new EthereumTx(rawTx);
 }
 

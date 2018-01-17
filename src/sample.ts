@@ -11,21 +11,21 @@ let privateKeyString = 'daac1435cdd5a4aece27643f4ac287a6dadbf56b5ce0bb0b29d41d6b
 
 
 let payload = outputPayload(abi, 'voteForCandidate', '0', 'Alice');
-let tx = outputRawTx(account, walletContractAddress, payload, '0');
-let bufferKey = privateKeyStringToBuffer(privateKeyString);
-let txSigned = sign(bufferKey, tx);
-console.log('wif', parseWIF(bufferKey))
+// let tx = outputRawTx(account, walletContractAddress, '0', payload);
+// let bufferKey = privateKeyStringToBuffer(privateKeyString);
+// let txSigned = sign(bufferKey, tx);
+// console.log('wif', parseWIF(bufferKey))
 
 
 
 
-web3.eth.sendRawTransaction(txSigned, function (err, hash) {
-  if (err) {
-    console.log('Error:');
-    console.log(err);
-  }
-  else {
-    console.log('Transaction receipt hash pending');
-    console.log(hash);
-  }
-});
+// web3.eth.sendRawTransaction(txSigned, function (err, hash) {
+//   if (err) {
+//     console.log('Error:');
+//     console.log(err);
+//   }
+//   else {
+//     console.log('Transaction receipt hash pending');
+//     console.log(hash);
+//   }
+// });
