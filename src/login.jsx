@@ -19,7 +19,6 @@ export class LoginComponent extends React.Component {
 
   makePrivateKey() {
     let priv = makePrivateKey(this.state.email, this.state.password);
-
     this.setState({ privateKeyInput: priv });
     // this.setState({ address: address });
   }
@@ -51,19 +50,19 @@ export class LoginComponent extends React.Component {
   setNewPrivateKey(event) {
     if (this.state.email !== '' && this.state.password !== '') {
       if (!(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(this.state.email))) {
-        event.preventDefault()
-        return
+        event.preventDefault();
+        return;
       }
       if (!(/.{8,}/.test(this.state.password))) {
-        event.preventDefault()
-        return
+        event.preventDefault();
+        return;
       }
     } else if (Number(this.state.email === '') ^ Number(this.state.password === '')) {
-      event.preventDefault()
-      return
+      event.preventDefault();
+      return;
     } else if (!(/^(0x)?[a-f0-9]+$/.test(this.state.privateKeyInput))) {
-      event.preventDefault()
-      return
+      event.preventDefault();
+      return;
     }
     if (this.state.privateKeyInput.length === 66 || this.state.privateKeyInput.length === 64) {
       let privateKey = this.state.privateKeyInput;
@@ -75,9 +74,9 @@ export class LoginComponent extends React.Component {
       keys = JSON.stringify(keys);
       localStorage.setItem('privateKeys', keys);
 
-      this.props.login(this.state.privateKeyInput)
+      this.props.login(this.state.privateKeyInput);
     }
-    event.preventDefault()
+    event.preventDefault();
   }
 
   render() {
@@ -116,11 +115,8 @@ export class LoginComponent extends React.Component {
             pattern="^(0x)?[a-f0-9]+$"
           />
         </FormGroup>
-
         <Button type="submit" >Login</Button>
       </Form>
-
     );
   }
-
 }

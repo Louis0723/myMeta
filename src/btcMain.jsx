@@ -9,16 +9,16 @@ export class BtcMainComponent extends React.Component {
     super(props);
     let priv = props.privateKey;
     let wif = parseWIF(new Buffer(props.privateKey, 'hex'));
-    let ecPair = ECPair.fromWIF(wif)
-    let address = ecPair.getAddress()
-    let publicKeyBuffer = ecPair.getPublicKeyBuffer()
-    let publicKey = publicKeyBuffer.toString('hex')
+    let ecPair = ECPair.fromWIF(wif);
+    let address = ecPair.getAddress();
+    let publicKeyBuffer = ecPair.getPublicKeyBuffer();
+    let publicKey = publicKeyBuffer.toString('hex');
     this.state = {
       privateKey: priv,
       wif: wif,
       address: address,
       publicKey: publicKey,
-      balance: '0.00000000'
+      balance: '0.00000000',
     }
     this.getBalanceOb = Observable.interval(3000).mergeMap(() => {
       return Observable.create((observer) => {
@@ -40,13 +40,12 @@ export class BtcMainComponent extends React.Component {
       data = data.padStart(9, '0');
       data = data.replace(/(\d{8})$/, '.$1');
       this.setState({ balance: data });
-    })
-
+    });
   }
 
+  // componet exit
   componentWillUnmount() {
     this.getBalanceObSub.unsubscribe();
-    this.getBalanceObSub.remove();
   }
 
   render() {
@@ -69,7 +68,6 @@ export class BtcMainComponent extends React.Component {
           <FormControl value={this.state.wif} disabled />
         </FormGroup>
       </Form>
-
     )
   }
 }
