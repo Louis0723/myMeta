@@ -52,6 +52,7 @@
     "webpack-dev-server": "^2.8.0"
   },
   "dependencies": {
+    "@fdaciuk/ajax": "^2.3.0",
     "bitcoinjs-lib": "^3.3.2",
     "bootstrap": "^3.3.7",
     "bs58": "^4.0.1",

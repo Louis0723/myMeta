@@ -4,6 +4,7 @@ import { sha256 } from 'ethereumjs-util';
 import { Tabs, Tab, Label } from 'react-bootstrap';
 import { Observable } from 'rxjs';
 import * as Web3 from './web3';
+import ajax from '@fdaciuk/ajax';
 
 import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
 

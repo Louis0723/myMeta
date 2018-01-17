@@ -3,6 +3,7 @@ import { parseWIF } from './tx';
 import { Observable } from 'rxjs'
 import { ECPair } from 'bitcoinjs-lib'
 import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import ajax from '@fdaciuk/ajax';
 
 export class BtcMainComponent extends React.Component {
   constructor(props) {
