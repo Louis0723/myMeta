@@ -9,7 +9,7 @@ let {
 let basePath = __dirname;
 
 module.exports = {
-  // target: 'electron-renderer', // 給electron用
+  // target: 'electron-renderer', // 給electron用  目前失敗！？請執行 toElectron.sh
   context: path.join(basePath, 'src'), // src目錄
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '.scss'], //支持的擴充名,需要 rules loader 配合

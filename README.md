@@ -26,14 +26,16 @@ npm run build
 ```
 
 ## Build to Electron
-change webpack.config.js
+
+<!-- change webpack.config.js
 delete the comment
 ```
 // target: 'electron-renderer', // 給electron用
-```
+``` -->
+
 run
 ```
-npm run build
+./toElectron
 ```
 choose platform
 ```
