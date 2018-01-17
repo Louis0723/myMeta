@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { LoginComponent } from './login';
 import { MainComponent } from './main';
-import { sha256 } from 'ethereumjs-util';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 export class AppComponent extends React.Component {

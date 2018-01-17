@@ -1,7 +1,6 @@
 
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
-import { sha256 } from 'ethereumjs-util';
 import { makePrivateKey } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
 

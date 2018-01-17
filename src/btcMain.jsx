@@ -65,14 +65,13 @@ export class BtcMainComponent extends React.Component {
           <ControlLabel>PublicKey:</ControlLabel>
           <FormControl value={this.state.address} disabled />
         </FormGroup>
-        <InputGroup>
-          <FormControl type={this.state.passwordType} value={this.state.wif} disabled />
-          <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: 'text' })}>Show</InputGroup.Addon>
-        </InputGroup>
-        {/* <FormGroup>
-          <ControlLabel>Wif:</ControlLabel>
-          <FormControl value={this.state.wif} disabled />
-        </FormGroup> */}
+        <FormGroup>
+          <ControlLabel>PrivateKey:</ControlLabel>
+          <InputGroup>
+            <FormControl type={this.state.passwordType} value={this.state.wif} disabled />
+            <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: 'text' })}>Show</InputGroup.Addon>
+          </InputGroup>
+        </FormGroup>
       </Form>
     )
   }

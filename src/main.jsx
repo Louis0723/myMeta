@@ -1,8 +1,7 @@
 
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
-import { sha256 } from 'ethereumjs-util';
-import { Tabs, Tab, Label } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
 import { EthMainComponent } from './ethMain'
 import { BtcMainComponent } from './btcMain'
 

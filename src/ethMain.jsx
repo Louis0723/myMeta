@@ -1,12 +1,8 @@
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
-import { sha256 } from 'ethereumjs-util';
 import { Observable } from 'rxjs';
-import * as Web3 from './web3';
-import ajax from '@fdaciuk/ajax';
 import { EthTxComponent } from './ethTx'
 import { EthAdvTxComponent } from './ethAdvTx'
-import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 
 import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
 
@@ -75,6 +71,7 @@ export class EthMainComponent extends React.Component {
             <FormControl value={this.state.address} disabled />
           </FormGroup>
           <FormGroup>
+            <ControlLabel>PrivateKey:</ControlLabel>
             <InputGroup>
               <FormControl type={this.state.passwordType} value={this.state.privateKey} disabled />
               <InputGroup.Addon onClick={()=>this.setState.call(this, { passwordType: 'text'})}>Show</InputGroup.Addon>

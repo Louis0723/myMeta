@@ -1,9 +1,6 @@
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
-import { sha256 } from 'ethereumjs-util';
-import { Tabs, Tab, Label } from 'react-bootstrap';
 import { Observable } from 'rxjs';
-import * as Web3 from './web3';
 import ajax from '@fdaciuk/ajax';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 
