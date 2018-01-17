@@ -1,6 +1,6 @@
 {
   "name": "thewallet",
-  "version": "0.3.0",
+  "",
   "description": "Front-End Lemoncode Master, Bundle Modules, Webpack Demo 03 Environments - 02 CSS Modules",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,9 @@
     "install": "./install.sh",
     "build": "rimraf dist && webpack",
     "build:prod": "rimraf dist && webpack -p",
-    "buildWindows": "electron-packager ./docs --platform=win32 --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules",
-    "buildMacOS": "electron-packager ./docs --platform=darwin --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules",
-    "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --version 0.3.0 --overwrite --ignore=node_modules"
+    "buildWindows": "electron-packager ./docs --platform=win32 --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
+    "buildMacOS": "electron-packager ./docs --platform=darwin --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
+    "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules"
   },
   "repository": {
     "type": "git",

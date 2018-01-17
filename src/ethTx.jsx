@@ -3,8 +3,7 @@ import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import ajax from '@fdaciuk/ajax';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
-
-import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
 
 
 export class EthTxComponent extends React.Component {
@@ -139,10 +138,12 @@ export class EthTxComponent extends React.Component {
           })()
           }
         </FormGroup>
-        <Button onClick={this.cancelTransaction}>Back Main Page</Button>
-        <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
-        <Button bsStyle="danger"  onClick={this.toTransaction}>Advanced Transaction</Button>
-        
+        <ButtonGroup>
+          <Button onClick={this.cancelTransaction}>Back Main Page</Button>
+          <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
+        </ButtonGroup>
+        <Button bsStyle="danger" onClick={this.toTransaction}>Advanced Transaction</Button>
+
       </Form>
     )
   }

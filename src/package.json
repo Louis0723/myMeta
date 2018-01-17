@@ -2,5 +2,6 @@
   "title": "The Wallet",
   "authors": "Rue-Shan Lu Team - Lursun",
   "main": "electronMain.js",
+  "version":"0.4.0",
   "description":"The Wallet for Ethereum, Bitcoin."
 }
