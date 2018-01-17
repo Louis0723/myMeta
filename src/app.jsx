@@ -19,10 +19,8 @@ export class AppComponent extends React.Component {
   }
   render() {
     return (
-      <Grid><Row><Col xs={10} xsOffset={1} >
-        {
-          this.state.privateKey ? <MainComponent privateKey={this.state.privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />
-        }
+      <Grid><Row><Col xs={10} xsOffset={1} sm={8} smOffset={2} md={6} mdOffset={3}>
+        {this.state.privateKey ? <MainComponent privateKey={this.state.privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />}
       </Col></Row></Grid>
     );
   }

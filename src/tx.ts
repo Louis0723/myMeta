@@ -40,7 +40,6 @@ export function outputRawTx(from, to, ether = '0',gasLimit, gasPrice , payloadDa
     from: from,
     value: etherHex,
   };
-  console.log(rawTx)
   payloadData && (rawTx.data = payloadData);
 
   return new EthereumTx(rawTx);

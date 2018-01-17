@@ -10,7 +10,7 @@ import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
 
 
-export class EthTxComponent extends React.Component {
+export class EthAdvTxComponent extends React.Component {
   constructor(props) {
     super(props);
     this.toTransaction = this.props.toTransaction;
@@ -82,10 +82,10 @@ export class EthTxComponent extends React.Component {
           />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Who do you want to pay?:</ControlLabel>
+          <ControlLabel>Contract Address:</ControlLabel>
           <FormControl
             type="text"
-            placeholder="Recipient Address"
+            placeholder="Contract Address"
             value={this.state.transactionTo}
             onChange={this.setTransactionTo.bind(this)}
           />
@@ -110,6 +110,15 @@ export class EthTxComponent extends React.Component {
         </FormGroup>
         <FormGroup>
           <ControlLabel>Max Spend Gas :{(this.state.transactionPrice / 1000000000 * this.state.transactionLimit).toFixed(18)}</ControlLabel>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>ABI:</ControlLabel>
+          <FormControl
+            type="text"
+            placeholder="Application Binary Interface"
+            // value={this.state.transactionPrice}
+            // onChange={this.setTransactionPrice.bind(this)}
+          />
         </FormGroup>
         <FormGroup>
           {(() => {
@@ -143,9 +152,7 @@ export class EthTxComponent extends React.Component {
           }
         </FormGroup>
         <Button onClick={this.cancelTransaction}>Back Main Page</Button>
-        <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
-        <Button bsStyle="danger"  onClick={this.toTransaction}>Advanced Transaction</Button>
-        
+        {/* <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button> */}
       </Form>
     )
   }

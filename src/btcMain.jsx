@@ -2,7 +2,7 @@ import * as React from 'react';
 import { parseWIF } from './tx';
 import { Observable } from 'rxjs'
 import { ECPair } from 'bitcoinjs-lib'
-import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
 import ajax from '@fdaciuk/ajax';
 
 export class BtcMainComponent extends React.Component {
@@ -20,6 +20,7 @@ export class BtcMainComponent extends React.Component {
       address: address,
       publicKey: publicKey,
       balance: '0.00000000',
+      passwordType: 'password'
     }
     this.getBalanceOb = Observable.interval(3000).mergeMap(() => {
       return Observable.create((observer) => {
@@ -64,10 +65,14 @@ export class BtcMainComponent extends React.Component {
           <ControlLabel>PublicKey:</ControlLabel>
           <FormControl value={this.state.address} disabled />
         </FormGroup>
-        <FormGroup>
+        <InputGroup>
+          <FormControl type={this.state.passwordType} value={this.state.wif} disabled />
+          <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: 'text' })}>Show</InputGroup.Addon>
+        </InputGroup>
+        {/* <FormGroup>
           <ControlLabel>Wif:</ControlLabel>
           <FormControl value={this.state.wif} disabled />
-        </FormGroup>
+        </FormGroup> */}
       </Form>
     )
   }
