@@ -74,11 +74,11 @@ export class EthMainComponent extends React.Component {
             <ControlLabel>PrivateKey:</ControlLabel>
             <InputGroup>
               <FormControl type={this.state.passwordType} value={this.state.privateKey} disabled />
-              <InputGroup.Addon onClick={()=>this.setState.call(this, { passwordType: 'text'})}>Show</InputGroup.Addon>
+              <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: this.state.passwordType === 'password' ? 'text' : 'password' })}>Show</InputGroup.Addon>
             </InputGroup>
           </FormGroup>
 
-        <Button bsStyle="primary" onClick={this.toTransaction.bind(this)}>Transaction</Button>
+          <Button bsStyle="primary" onClick={this.toTransaction.bind(this)}>Transaction</Button>
         </Form >
       )
     } else if (this.state.transactionState === 1) {

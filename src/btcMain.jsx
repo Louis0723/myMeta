@@ -14,6 +14,7 @@ export class BtcMainComponent extends React.Component {
     let address = ecPair.getAddress();
     let publicKeyBuffer = ecPair.getPublicKeyBuffer();
     let publicKey = publicKeyBuffer.toString('hex');
+    this.ajax = ajax();
     this.state = {
       privateKey: priv,
       wif: wif,
@@ -24,21 +25,18 @@ export class BtcMainComponent extends React.Component {
     }
     this.getBalanceOb = Observable.interval(3000).mergeMap(() => {
       return Observable.create((observer) => {
-        jQuery.ajax({
-          url: `https://blockchain.info/q/addressbalance/${this.state.address}`,
-          error: (error) => {
-            observer.error(error);
-            observer.complete();
-          },
-          success:
-            (body, res) => {
-              observer.next(body);
-              observer.complete();
-            }
+        let request = ajax().get(`https://blockchain.info/q/addressbalance/${this.state.address}`)
+        request.then((response, xhr) => {
+          observer.next(response);
+          observer.complete();
+        }).catch((response, xhr) => {
+          observer.error(response);
+          observer.complete();
         })
       })
     })
     this.getBalanceObSub = this.getBalanceOb.subscribe((data) => {
+      data = String(data)
       data = data.padStart(9, '0');
       data = data.replace(/(\d{8})$/, '.$1');
       this.setState({ balance: data });
@@ -69,7 +67,7 @@ export class BtcMainComponent extends React.Component {
           <ControlLabel>PrivateKey:</ControlLabel>
           <InputGroup>
             <FormControl type={this.state.passwordType} value={this.state.wif} disabled />
-            <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: 'text' })}>Show</InputGroup.Addon>
+            <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: this.state.passwordType === 'password' ? 'text' : 'password' })}>Show</InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       </Form>

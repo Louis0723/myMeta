@@ -4,6 +4,7 @@ import * as wallet from 'ethereumjs-wallet';
 import { Tabs, Tab } from 'react-bootstrap';
 import { EthMainComponent } from './ethMain'
 import { BtcMainComponent } from './btcMain'
+import { SettingComponent } from './setting'
 
 
 export class MainComponent extends React.Component {
@@ -27,8 +28,8 @@ export class MainComponent extends React.Component {
         <Tab eventKey={2} title="Bitcoin">
           <BtcMainComponent privateKey={this.state.privateKey} />
         </Tab>
-        <Tab eventKey={3} title="Litecoin" disabled>
-          Tab 3 content
+        <Tab eventKey={3} title="Setting" >
+          <SettingComponent />
 	      </Tab>
       </Tabs>
     )

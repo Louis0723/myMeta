@@ -25,7 +25,6 @@ module.exports = {
     vendor: [ // 外部資源
       'react',
       'react-dom',
-      'jquery',
     ],
     vendorStyles: [ // 外部資源
       '../node_modules/bootstrap/dist/css/bootstrap.css',
@@ -127,10 +126,6 @@ module.exports = {
       filename: 'index.html', //Name of file in ./docs/
       template: 'index.html', //Name of template in ./src
       hash: true,
-    }),
-    new webpack.ProvidePlugin({ // *這是給js 用的嗎? 開發工具 都找不到 $,jQuery
-      $: "jquery",
-      jQuery: "jquery"
     }),
     new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
       names: ['vendor', 'manifest'],

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
-import ajax from '@fdaciuk/ajax';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
 
@@ -30,7 +29,6 @@ export class EthTxComponent extends React.Component {
     })
   }
 
-
   setTransactionEther(event) {
     this.setState({ transactionEther: event.target.value });
   }
@@ -49,11 +47,9 @@ export class EthTxComponent extends React.Component {
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
       web3.eth.sendRawTransaction(txSigned, (err, txid) => {
         if (err) {
-          console.log('Error:');
           console.log(err);
         }
         else {
-          console.log(txid)
           this.setState({ transactionTxid: txid, transactionBlock: 'Wait...' })
           Observable.interval(3000).map(() => {
             return web3.eth.getTransactionReceipt(txid)
@@ -128,7 +124,8 @@ export class EthTxComponent extends React.Component {
               return (
                 <div>
                   <ControlLabel>BlockNumber:</ControlLabel>
-                  {this.state.transactionBlock === "Wait..." ? "Wait..." :
+                  {this.state.transactionBlock === "Wait..." ?
+                    <FormControl value="Wait..." disabled /> :
                     <a target="_blank" href={`https://ropsten.etherscan.io/block/${this.state.transactionBlock}`}>
                       <FormControl value={this.state.transactionBlock} disabled />
                     </a>}
@@ -143,7 +140,6 @@ export class EthTxComponent extends React.Component {
           <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
         </ButtonGroup>
         <Button bsStyle="danger" onClick={this.toTransaction}>Advanced Transaction</Button>
-
       </Form>
     )
   }

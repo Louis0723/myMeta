@@ -2,7 +2,7 @@
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { makePrivateKey } from './tx';
-import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
 
 
 export class LoginComponent extends React.Component {
@@ -12,6 +12,7 @@ export class LoginComponent extends React.Component {
       email: '',
       password: '',
       privateKeyInput: '',
+      passwordType: 'password',
       // address: ''
     }
   }
@@ -105,14 +106,17 @@ export class LoginComponent extends React.Component {
         </FormGroup>
         <FormGroup>
           <ControlLabel>PrivateKey:</ControlLabel>
-          <FormControl
-            type="text"
-            value={this.state.privateKeyInput}
-            placeholder="PrivateKey"
-            onChange={this.setPrivateKey.bind(this)}
-            maxLength="66"
-            pattern="^(0x)?[a-f0-9]+$"
-          />
+          <InputGroup>
+            <FormControl
+              type={this.state.passwordType}
+              value={this.state.privateKeyInput}
+              placeholder="PrivateKey"
+              onChange={this.setPrivateKey.bind(this)}
+              maxLength="66"
+              pattern="^(0x)?[a-f0-9]+$"
+            />
+            <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: this.state.passwordType === 'password' ? 'text' : 'password' })}>Show</InputGroup.Addon>
+          </InputGroup>
         </FormGroup>
         <Button type="submit" >Login</Button>
       </Form>
