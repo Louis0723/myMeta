@@ -3,6 +3,7 @@ import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
+import { ParamInputComponent } from './paramInput'
 
 
 export class EthDeploySmartContractComponent extends React.Component {
@@ -21,7 +22,9 @@ export class EthDeploySmartContractComponent extends React.Component {
       transactionPrice: '40',
       transactionTxid: '',
       transactionBlock: 'Wait...',
-      transactionContractAddress: 'Wait...'
+      transactionContractAddress: 'Wait...',
+      params: [],
+      paramInput: [],
     }
     web3.eth.getGasPrice((error, price) => {
       this.setState({
@@ -30,6 +33,24 @@ export class EthDeploySmartContractComponent extends React.Component {
     })
   }
 
+  setParamValue(id, tag) {
+    this.state.params[id] = tag.getValue();
+    this.setState({ params: this.state.params });
+    console.log(this.state.params)
+  }
+
+  setParamNumber(event) {
+    let num = Number(event.target.value)
+    num = num > 100 ? 99 : num
+    num = num < -1 ? 0 : num
+    let paramInput = []
+    for (let i = 0; i < num; i++) {
+      paramInput.push(<ParamInputComponent key={i} index={i} setParamValue={this.setParamValue.bind(this)} />)
+    }
+    this.setState({ paramInput: paramInput });
+    this.state.params.length = num;
+    this.setState({ params: this.state.params });
+  }
   setTransactionEther(event) {
     this.setState({ transactionEther: event.target.value });
   }
@@ -69,6 +90,7 @@ export class EthDeploySmartContractComponent extends React.Component {
       });
     }
   }
+
   componentWillMount() { }
   render() {
     return (
@@ -161,6 +183,18 @@ export class EthDeploySmartContractComponent extends React.Component {
           })()
           }
         </FormGroup>
+        <FormGroup>
+          <ControlLabel>Param Number:</ControlLabel>
+          <FormControl
+            max="99"
+            min="0"
+            type="number"
+            placeholder="Param Number"
+            onChange={this.setParamNumber.bind(this)}
+          />
+        </FormGroup>
+
+        {this.state.paramInput}
         <ButtonGroup>
           <Button onClick={this.cancelTransaction}>Back Main Page</Button>
           <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>

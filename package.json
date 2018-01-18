@@ -1,6 +1,6 @@
 {
   "name": "thewallet",
-  "version":"0.4.0",
+  "version": "0.4.0",
   "description": "The Offline Wallet for Ethereum, Bitcoin",
   "main": "index.sh",
   "scripts": {
@@ -13,14 +13,23 @@
     "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules"
   },
   "keywords": [
-    "thewallet","the wallet","wallet",
-    "web wallet","web",
-    "cool wallet","cool",
-    "brain wallet","brain",
-    "offline wallet","offline",
-    "bitcoin","btc",
-    "ethereum","eth",
-    "smart contract","contract",
+    "thewallet",
+    "the wallet",
+    "wallet",
+    "web wallet",
+    "web",
+    "cool wallet",
+    "cool",
+    "brain wallet",
+    "brain",
+    "offline wallet",
+    "offline",
+    "bitcoin",
+    "btc",
+    "ethereum",
+    "eth",
+    "smart contract",
+    "contract",
     "solidity"
   ],
   "repository": {
@@ -64,11 +73,13 @@
   "dependencies": {
     "@fdaciuk/ajax": "^2.3.0",
     "bitcoinjs-lib": "^3.3.2",
+    "bootstrap": "^3.3.7",
     "bs58": "^4.0.1",
     "ethereumjs-tx": "^1.3.3",
     "ethereumjs-util": "^5.1.3",
     "ethereumjs-wallet": "^0.6.0",
     "ethers": "^2.1.3",
+    "identicon.js": "^2.3.1",
     "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-bootstrap": "^0.32.0",
