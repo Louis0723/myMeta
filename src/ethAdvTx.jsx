@@ -115,7 +115,9 @@ export class EthAdvTxComponent extends React.Component {
             // onChange={this.setTransactionPrice.bind(this)}
           />
         </FormGroup>
-        <FormGroup>
+        <Button onClick={this.cancelTransaction}>Back Main Page</Button>
+        <Button bsStyle="danger" onClick={this.toTransaction}>Deploy SmartContract</Button>
+        {/* <FormGroup>
           {(() => {
             if (this.state.transactionTxid) {
               return (
@@ -145,8 +147,8 @@ export class EthAdvTxComponent extends React.Component {
             }
           })()
           }
-        </FormGroup>
-        <Button onClick={this.cancelTransaction}>Back Main Page</Button>
+        </FormGroup> */}
+        
         {/* <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button> */}
       </Form>
     )

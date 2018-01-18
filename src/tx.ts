@@ -3,9 +3,7 @@ import * as Web3 from './web3';
 import * as EthereumTx from 'ethereumjs-tx';
 import * as SolidityFunction from './web3/lib/web3/function';
 import * as wallet from 'ethereumjs-wallet';
-import {
-  sha256
-} from 'ethereumjs-util';
+import { sha256 } from 'ethereumjs-util';
 import * as bs58 from 'bs58';
 import {
   Buffer
@@ -24,11 +22,11 @@ export function outputPayload(abi, contractName, ether = '', ...args) {
 }
 
 
-export function outputRawTx(from, to, ether = '0',gasLimit, gasPrice , payloadData?): EthereumTx {
+export function outputRawTx({ from, to = null, ether, gasLimit, gasPrice, payloadData = null }): EthereumTx {
   let nonce = web3.eth.getTransactionCount(from);
   let nonceHex = web3.toHex(nonce);
   // let gasPrice = web3.eth.gasPrice;
-  let etherHex= web3.toHex(ether);
+  let etherHex = web3.toHex(ether);
   let gasLimitHex = web3.toHex(gasLimit);
   let gasPriceHex = web3.toHex(gasPrice);
 
@@ -36,10 +34,10 @@ export function outputRawTx(from, to, ether = '0',gasLimit, gasPrice , payloadDa
     nonce: nonceHex,
     gasPrice: gasPriceHex,
     gasLimit: gasLimitHex,
-    to: to,
     from: from,
     value: etherHex,
   };
+  to && (rawTx.to = to);
   payloadData && (rawTx.data = payloadData);
 
   return new EthereumTx(rawTx);

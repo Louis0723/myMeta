@@ -5,7 +5,7 @@ import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
 
 
-export class EthTxComponent extends React.Component {
+export class EthDeploySmartContractComponent extends React.Component {
   constructor(props) {
     super(props);
     this.toTransaction = this.props.toTransaction;
@@ -16,11 +16,12 @@ export class EthTxComponent extends React.Component {
       address: address,
       privateKey: priv,
       transactionEther: '0',
-      transactionTo: '',
-      transactionLimit: '300000',
+      transactionData: '0x',
+      transactionLimit: '3000000',// 比 300000 多一個0
       transactionPrice: '40',
       transactionTxid: '',
       transactionBlock: 'Wait...',
+      transactionContractAddress: 'Wait...'
     }
     web3.eth.getGasPrice((error, price) => {
       this.setState({
@@ -32,8 +33,9 @@ export class EthTxComponent extends React.Component {
   setTransactionEther(event) {
     this.setState({ transactionEther: event.target.value });
   }
-  setTransactionTo(event) {
-    this.setState({ transactionTo: event.target.value });
+  setTransactionData(event) {
+    event.target.value = /^0x/.test(event.target.value) ? event.target.value : '0x' + event.target.value;
+    this.setState({ transactionData: event.target.value });
   }
   setTransactionLimit(event) {
     this.setState({ transactionLimit: event.target.value });
@@ -42,14 +44,13 @@ export class EthTxComponent extends React.Component {
     this.setState({ transactionPrice: event.target.value });
   }
   sendTransaction() {
-    if (this.state.address && this.state.transactionTo && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
-
+    if (this.state.address && this.state.transactionData && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
       let param = {
         from: this.state.address,
-        to: this.state.transactionTo,
         ether: web3.toWei(this.state.transactionEther),
         gasLimit: this.state.transactionLimit,
         gasPrice: this.state.transactionPrice * 1000000000,
+        payloadData: this.state.transactionData
       }
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
@@ -58,11 +59,11 @@ export class EthTxComponent extends React.Component {
           console.log(err);
         }
         else {
-          this.setState({ transactionTxid: txid, transactionBlock: 'Wait...' })
+          this.setState({ transactionTxid: txid, transactionBlock: 'Wait...', transactionContractAddress: 'Wait...' })
           Observable.interval(3000).map(() => {
             return web3.eth.getTransactionReceipt(txid)
           }).filter(data => data).first().subscribe(data => {
-            this.setState({ transactionBlock: data.blockNumber })
+            this.setState({ transactionBlock: data.blockNumber, transactionContractAddress: data.contractAddress || 'fails' })
           })
         }
       });
@@ -82,12 +83,12 @@ export class EthTxComponent extends React.Component {
           />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Who do you want to pay?:</ControlLabel>
+          <ControlLabel>Contract Byte Code:</ControlLabel>
           <FormControl
             type="text"
-            placeholder="Recipient Address"
-            value={this.state.transactionTo}
-            onChange={this.setTransactionTo.bind(this)}
+            placeholder="Contract Byte Code"
+            value={this.state.transactionData}
+            onChange={this.setTransactionData.bind(this)}
           />
         </FormGroup>
         <FormGroup>
@@ -143,11 +144,27 @@ export class EthTxComponent extends React.Component {
           })()
           }
         </FormGroup>
+        <FormGroup>
+          {(() => {
+            if (this.state.transactionTxid) {
+              return (
+                <div>
+                  <ControlLabel>ContractAddress:</ControlLabel>
+                  {this.state.transactionContractAddress === "Wait..." ?
+                    <FormControl value="Wait..." disabled /> :
+                    <a target="_blank" href={`https://ropsten.etherscan.io/address/${this.state.transactionContractAddress}`}>
+                      <FormControl value={this.state.transactionContractAddress} disabled />
+                    </a>}
+                </div>
+              )
+            }
+          })()
+          }
+        </FormGroup>
         <ButtonGroup>
           <Button onClick={this.cancelTransaction}>Back Main Page</Button>
           <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
         </ButtonGroup>
-        <Button bsStyle="danger" onClick={this.toTransaction}>Advanced Transaction</Button>
       </Form>
     )
   }

@@ -3,6 +3,7 @@ import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { EthTxComponent } from './ethTx'
 import { EthAdvTxComponent } from './ethAdvTx'
+import { EthDeploySmartContractComponent } from './ethDeploy'
 
 import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
 
@@ -83,11 +84,15 @@ export class EthMainComponent extends React.Component {
       )
     } else if (this.state.transactionState === 1) {
       return (
-        <EthTxComponent web3={this.props.web3} address={this.state.address} privateKey={this.state.privateKey} toTransaction={this.toTransaction.bind(this)} cancelTransaction={this.cancelTransaction.bind(this)} />
+        <EthTxComponent web3={this.props.web3} address={this.state.address} privateKey={this.state.privateKey} cancelTransaction={this.cancelTransaction.bind(this)} toTransaction={this.toTransaction.bind(this)} />
       )
     } else if (this.state.transactionState === 2) {
       return (
-        <EthAdvTxComponent web3={this.props.web3} address={this.state.address} privateKey={this.state.privateKey} toTransaction={this.toTransaction.bind(this)} cancelTransaction={this.cancelTransaction.bind(this)} />
+        <EthAdvTxComponent web3={this.props.web3} address={this.state.address} privateKey={this.state.privateKey} cancelTransaction={this.cancelTransaction.bind(this)} toTransaction={this.toTransaction.bind(this)} />
+      )
+    } else if (this.state.transactionState === 3) {
+      return (
+        <EthDeploySmartContractComponent web3={this.props.web3} address={this.state.address} privateKey={this.state.privateKey} cancelTransaction={this.cancelTransaction.bind(this)} />
       )
     }
   }

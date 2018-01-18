@@ -3,7 +3,10 @@ import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { makePrivateKey } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
-
+// import * as Identicon from 'identicon.js'
+// import {
+//   sha256
+// } from 'ethereumjs-util';
 
 export class LoginComponent extends React.Component {
   constructor(props) {
@@ -79,6 +82,10 @@ export class LoginComponent extends React.Component {
     event.preventDefault();
   }
 
+  // identicon() {
+  //   let base64Img = new Identicon(sha256(this.state.privateKeyInput).toString('hex'),{size: 512}).toString()
+  //   return `data:image/svg;base64,${base64Img}`
+  // }
   render() {
     return (
       <Form onSubmit={this.setNewPrivateKey.bind(this)}>
@@ -118,6 +125,8 @@ export class LoginComponent extends React.Component {
             <InputGroup.Addon onClick={() => this.setState.call(this, { passwordType: this.state.passwordType === 'password' ? 'text' : 'password' })}>Show</InputGroup.Addon>
           </InputGroup>
         </FormGroup>
+        {/* <Image href="#" circle height="120" width="120" alt="120*120" src={this.identicon()} /> */}
+
         <Button type="submit" >Login</Button>
       </Form>
     );
