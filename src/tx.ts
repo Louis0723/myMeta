@@ -21,6 +21,11 @@ export function outputPayload(abi, contractName, ether = '', ...args) {
   return payloadData;
 }
 
+export function createContractPayload(abi, bytecode, params): string {
+  let contract = new web3.eth.contract(abi);
+  let payload = contract.new.getData(...params, { data: bytecode });
+  return payload
+}
 
 export function outputRawTx({ from, to = null, ether, gasLimit, gasPrice, payloadData = null }): EthereumTx {
   let nonce = web3.eth.getTransactionCount(from);
@@ -39,6 +44,7 @@ export function outputRawTx({ from, to = null, ether, gasLimit, gasPrice, payloa
   };
   to && (rawTx.to = to);
   payloadData && (rawTx.data = payloadData);
+
 
   return new EthereumTx(rawTx);
 }

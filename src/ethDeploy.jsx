@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
-import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
+import { outputRawTx, sign, privateKeyStringToBuffer ,createContractPayload } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
 import { ParamInputComponent } from './paramInput'
 
@@ -25,6 +25,7 @@ export class EthDeploySmartContractComponent extends React.Component {
       transactionContractAddress: 'Wait...',
       params: [],
       paramInput: [],
+      abi:[],
     }
     web3.eth.getGasPrice((error, price) => {
       this.setState({
@@ -33,6 +34,11 @@ export class EthDeploySmartContractComponent extends React.Component {
     })
   }
 
+
+  setAbi(event) {
+
+    this.setState({ abi: JSON.parse(event.target.value) });
+  }
   setParamValue(id, tag) {
     this.state.params[id] = tag.getValue();
     this.setState({ params: this.state.params });
@@ -66,12 +72,13 @@ export class EthDeploySmartContractComponent extends React.Component {
   }
   sendTransaction() {
     if (this.state.address && this.state.transactionData && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
+      let payload=createContractPayload(this.state.abi,this.state.transactionData,this.state.params);
       let param = {
         from: this.state.address,
         ether: web3.toWei(this.state.transactionEther),
         gasLimit: this.state.transactionLimit,
         gasPrice: this.state.transactionPrice * 1000000000,
-        payloadData: this.state.transactionData
+        payloadData: payload
       }
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
@@ -102,6 +109,14 @@ export class EthDeploySmartContractComponent extends React.Component {
             placeholder="Ether"
             value={this.state.transactionEther}
             onChange={this.setTransactionEther.bind(this)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Contract ABI:</ControlLabel>
+          <FormControl
+            type="text"
+            placeholder="Contract ABI"
+            onChange={this.setAbi.bind(this)}
           />
         </FormGroup>
         <FormGroup>
