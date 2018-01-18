@@ -94,17 +94,13 @@ module.exports = {
         loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/,
+        test: /\.(png|jpg|jpe?g|gif)$/,
         exclude: /node_modules/,
         loader: 'url-loader?limit=5000',
       },
       {
         test: /\.html$/,
         loader: 'html-loader',
-      },
-      {
-        test: require.resolve('jquery'),
-        loader: 'expose-loader?jQuery'
       },
     ],
   },

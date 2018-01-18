@@ -1,4 +1,5 @@
 # 盧瑞山團隊製作：錢包
+# Wallet : Made in Rei-Shan Lu Team
 
 ## [Live](https://lursun.github.io/myMeta)
 ```sh
@@ -11,7 +12,7 @@ npm run install
 ```
 or
 ```sh
-sh install.sh
+./install.sh
 ```
 
 ## Run
@@ -32,6 +33,10 @@ delete the comment
 ```
 // target: 'electron-renderer', // 給electron用
 ``` -->
+install Electronn
+```
+npm i -g electron
+```
 
 build
 ```
