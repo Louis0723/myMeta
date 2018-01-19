@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { InputGroup, DropdownButton, MenuItem, FormControl, FormGroup, Button } from 'react-bootstrap';
 
+
+// 本code 特髒
 export class ArrayInputComponent extends React.Component {
     constructor(props) {
         super(props)
@@ -20,6 +22,7 @@ export class ArrayInputComponent extends React.Component {
     }
 }
 
+// 本code 特髒
 export class ParamInputComponent extends React.Component {
     constructor(props) {
         super(props)
@@ -46,14 +49,6 @@ export class ParamInputComponent extends React.Component {
 
     setInputType(event) {
         this.setState({ inputType: event.target.innerText });
-        // if(/\[\]/.test(event.target.innerText) ){
-        //     let number = this.state.value
-        //     let array = []
-        //     for (let i = 0; i < Number(number|0); i++) {
-        //         array.push(<ArrayInputComponent inputType={this.state.inputType} index={i+1} />)
-        //     }
-        //     this.setState({ array: array });
-        // }
         this.setState({ array: [] }, () => {
             console.log('paraminput callback')
             this.props.setParamValue(this.props.index, this);
@@ -65,7 +60,9 @@ export class ParamInputComponent extends React.Component {
             this.props.setParamValue(this.props.index, this);
         });
         if (/\[\]/.test(this.state.inputType)) {
-            let number = event.target.value
+            let number = Number(event.target.value) | 0;
+            num = num > 100 ? 99 : num
+            num = num < -1 ? 0 : num
             let array = []
             for (let i = 0; i < Number(number | 0); i++) {
                 array.push(<ArrayInputComponent inputType={this.state.inputType} key={i} index={i + 1} setArrayValue={this.setArrayValue.bind(this)} />)

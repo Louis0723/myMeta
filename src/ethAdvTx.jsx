@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
-import { Form, FormControl, ControlLabel, Button, FormGroup } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, PanelGroup, Panel } from 'react-bootstrap';
 
 
 export class EthAdvTxComponent extends React.Component {
@@ -16,11 +16,12 @@ export class EthAdvTxComponent extends React.Component {
       address: address,
       privateKey: priv,
       transactionEther: '0',
-      transactionTo: '',
-      transactionLimit: '300000',
+      transactionTo: '0x',
+      transactionLimit: '3000000',
       transactionPrice: '40',
       transactionTxid: '',
       transactionBlock: 'Wait...',
+      abi: [],
     }
     web3.eth.getGasPrice((error, price) => {
       this.setState({
@@ -28,8 +29,13 @@ export class EthAdvTxComponent extends React.Component {
       })
     })
   }
+  handleSelect(activeKey) {
+    this.setState({ activeKey });
+  }
 
-
+  setAbi(event) {
+    this.setState({ abi: JSON.parse(event.target.value) });
+  }
   setTransactionEther(event) {
     this.setState({ transactionEther: event.target.value });
   }
@@ -77,6 +83,14 @@ export class EthAdvTxComponent extends React.Component {
           />
         </FormGroup>
         <FormGroup>
+          <ControlLabel>Contract ABI:</ControlLabel>
+          <FormControl
+            type="text"
+            placeholder="Contract ABI"
+            onChange={this.setAbi.bind(this)}
+          />
+        </FormGroup>
+        <FormGroup>
           <ControlLabel>Contract Address:</ControlLabel>
           <FormControl
             type="text"
@@ -106,50 +120,36 @@ export class EthAdvTxComponent extends React.Component {
         <FormGroup>
           <ControlLabel>Max Spend Gas :{(this.state.transactionPrice / 1000000000 * this.state.transactionLimit).toFixed(18)}</ControlLabel>
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>ABI:</ControlLabel>
-          <FormControl
-            type="text"
-            placeholder="Application Binary Interface"
-            // value={this.state.transactionPrice}
-            // onChange={this.setTransactionPrice.bind(this)}
-          />
-        </FormGroup>
         <Button onClick={this.cancelTransaction}>Back Main Page</Button>
         <Button bsStyle="danger" onClick={this.toTransaction}>Deploy SmartContract</Button>
-        {/* <FormGroup>
+
+
+        <PanelGroup
+          accordion
+          id="accordion-controlled-example"
+          activeKey={this.state.activeKey}
+          onSelect={this.handleSelect.bind(this)}
+        >
           {(() => {
-            if (this.state.transactionTxid) {
-              return (
-                <div>
-                  <ControlLabel>Txid:</ControlLabel>
-                  <a target="_blank" href={`https://ropsten.etherscan.io/tx/${this.state.transactionTxid}`}>
-                    <FormControl value={this.state.transactionTxid} disabled />
-                  </a>
-                </div>
-              )
+            let panel = []
+            for (let index in this.state.abi) {
+              if (this.state.abi[index].type !== "constructor") {
+                panel.push(
+                  <Panel eventKey={index} key={index}>
+                    <Panel.Heading>
+                      <Panel.Title toggle>{this.state.abi[index].name}</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body collapsible>
+                      ...
+              </Panel.Body>
+                  </Panel>
+                )
+              }
             }
-          })()
-          }
-        </FormGroup>
-        <FormGroup>
-          {(() => {
-            if (this.state.transactionTxid) {
-              return (
-                <div>
-                  <ControlLabel>BlockNumber:</ControlLabel>
-                  {this.state.transactionBlock === "Wait..." ? "Wait..." :
-                    <a target="_blank" href={`https://ropsten.etherscan.io/block/${this.state.transactionBlock}`}>
-                      <FormControl value={this.state.transactionBlock} disabled />
-                    </a>}
-                </div>
-              )
-            }
-          })()
-          }
-        </FormGroup> */}
-        
-        {/* <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button> */}
+            return panel
+          })()}
+
+        </PanelGroup>
       </Form>
     )
   }

@@ -36,7 +36,6 @@ export class EthDeploySmartContractComponent extends React.Component {
 
 
   setAbi(event) {
-
     this.setState({ abi: JSON.parse(event.target.value) });
   }
   setParamValue(id, tag) {

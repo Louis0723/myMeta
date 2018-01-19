@@ -1,6 +1,6 @@
 {
   "name": "thewallet",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "The Offline Wallet for Ethereum, Bitcoin",
   "main": "index.sh",
   "scripts": {
