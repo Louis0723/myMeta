@@ -19,6 +19,7 @@ export class EthTxComponent extends React.Component {
       transactionTo: '',
       transactionLimit: '300000',
       transactionPrice: '40',
+      transactionData: '',
       transactionTxid: '',
       transactionBlock: 'Wait...',
     }
@@ -28,7 +29,9 @@ export class EthTxComponent extends React.Component {
       })
     })
   }
-
+  setTransactionData(event) {
+    this.setState({ transactionData: event.target.value });
+  }
   setTransactionEther(event) {
     this.setState({ transactionEther: event.target.value });
   }
@@ -42,15 +45,20 @@ export class EthTxComponent extends React.Component {
     this.setState({ transactionPrice: event.target.value });
   }
   sendTransaction() {
-    if (this.state.address && this.state.transactionTo && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
+    if (this.state.address && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
 
       let param = {
         from: this.state.address,
-        to: this.state.transactionTo,
         ether: web3.toWei(this.state.transactionEther),
         gasLimit: this.state.transactionLimit,
         gasPrice: this.state.transactionPrice * 1000000000,
       }
+      
+      if (this.state.transactionData) {
+        param.payloadData = /^0x/.test(this.state.transactionData) ? this.state.transactionData : web3.toHex(this.state.transactionData);
+      }
+      this.state.transactionTo && (param.to = this.state.transactionTo);
+
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
       web3.eth.sendRawTransaction(txSigned, (err, txid) => {
@@ -77,6 +85,7 @@ export class EthTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder="Ether"
+            required
             value={this.state.transactionEther}
             onChange={this.setTransactionEther.bind(this)}
           />
@@ -86,6 +95,7 @@ export class EthTxComponent extends React.Component {
           <FormControl
             type="text"
             placeholder="Recipient Address"
+            required
             value={this.state.transactionTo}
             onChange={this.setTransactionTo.bind(this)}
           />
@@ -95,6 +105,7 @@ export class EthTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder=""
+            required
             value={this.state.transactionLimit}
             onChange={this.setTransactionLimit.bind(this)}
           />
@@ -104,8 +115,19 @@ export class EthTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder=""
+            required
             value={this.state.transactionPrice}
             onChange={this.setTransactionPrice.bind(this)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Data(Option):</ControlLabel>
+          <FormControl
+            type="text"
+            componentClass="textarea"
+            placeholder="Data"
+            value={this.state.transactionData}
+            onChange={this.setTransactionData.bind(this)}
           />
         </FormGroup>
         <FormGroup>

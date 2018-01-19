@@ -78,6 +78,7 @@ export class EthAdvTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder="Ether"
+            required
             value={this.state.transactionEther}
             onChange={this.setTransactionEther.bind(this)}
           />
@@ -87,6 +88,7 @@ export class EthAdvTxComponent extends React.Component {
           <FormControl
             type="text"
             placeholder="Contract ABI"
+            required
             onChange={this.setAbi.bind(this)}
           />
         </FormGroup>
@@ -95,6 +97,7 @@ export class EthAdvTxComponent extends React.Component {
           <FormControl
             type="text"
             placeholder="Contract Address"
+            required
             value={this.state.transactionTo}
             onChange={this.setTransactionTo.bind(this)}
           />
@@ -104,6 +107,7 @@ export class EthAdvTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder=""
+            required
             value={this.state.transactionLimit}
             onChange={this.setTransactionLimit.bind(this)}
           />
@@ -113,6 +117,7 @@ export class EthAdvTxComponent extends React.Component {
           <FormControl
             type="number"
             placeholder=""
+            required
             value={this.state.transactionPrice}
             onChange={this.setTransactionPrice.bind(this)}
           />

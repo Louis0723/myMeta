@@ -106,6 +106,7 @@ export class EthDeploySmartContractComponent extends React.Component {
           <FormControl
             type="number"
             placeholder="Ether"
+            required
             value={this.state.transactionEther}
             onChange={this.setTransactionEther.bind(this)}
           />
@@ -115,6 +116,7 @@ export class EthDeploySmartContractComponent extends React.Component {
           <FormControl
             type="text"
             placeholder="Contract ABI"
+            required
             onChange={this.setAbi.bind(this)}
           />
         </FormGroup>
@@ -122,8 +124,10 @@ export class EthDeploySmartContractComponent extends React.Component {
           <ControlLabel>Contract Byte Code:</ControlLabel>
           <FormControl
             type="text"
+            componentClass="textarea" 
             placeholder="Contract Byte Code"
             value={this.state.transactionData}
+            required
             onChange={this.setTransactionData.bind(this)}
           />
         </FormGroup>
@@ -133,6 +137,7 @@ export class EthDeploySmartContractComponent extends React.Component {
             type="number"
             placeholder=""
             value={this.state.transactionLimit}
+            required
             onChange={this.setTransactionLimit.bind(this)}
           />
         </FormGroup>
@@ -142,6 +147,7 @@ export class EthDeploySmartContractComponent extends React.Component {
             type="number"
             placeholder=""
             value={this.state.transactionPrice}
+            required
             onChange={this.setTransactionPrice.bind(this)}
           />
         </FormGroup>
