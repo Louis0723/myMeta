@@ -1,5 +1,5 @@
-# 盧瑞山團隊製作：錢包
-# Wallet : Made in Rei-Shan Lu Team
+# 盧瑞山教授團隊製作：錢包
+# Wallet : Made in Pro. Rei-Shan Lu Team
 
 ## [Live](https://lursun.github.io/myMeta)
 ```sh

@@ -59,6 +59,7 @@ export class EthMainComponent extends React.Component {
 
 
   render() {
+
     if (this.state.transactionState === 0) {
       return (
         <Form>

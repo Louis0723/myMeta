@@ -27,29 +27,31 @@ export class AlertComponent extends React.Component {
     render() {
         if (this.state.alertVisible) {
             return (
-                <Alert
-                    bsStyle={this.props.type}
-                    onDismiss={this.handleAlertDismiss.bind(this)}
-                    className="alert-fixed"
-                >
-                    <h4>{this.props.title}</h4>
-                    <p>
-                        {this.props.body}
-                    </p>
+                <div className="mask">
+                    <Alert
+                        bsStyle={this.props.type}
+                        onDismiss={this.handleAlertDismiss.bind(this)}
+                        className="alert-fixed"
+                    >
+                        <h4>{this.props.title}</h4>
+                        <p>
+                            {this.props.body}
+                        </p>
 
-                    <ButtonToolbar>
-                        {
-                            (() => {
-                                if (this.props.sure) {
-                                    return (<Button bsStyle={this.props.type} onClick={this.sure.bind(this)}>OK</Button>)
-                                }
-                                return (<i></i>)
-                            })()
-                        }
-                        ,<Button onClick={this.props.close ? this.props.close : this.handleAlertDismiss.bind(this)}>Cloas</Button>
-                    </ButtonToolbar>
+                        <ButtonToolbar>
+                            {
+                                (() => {
+                                    if (this.props.sure) {
+                                        return (<Button bsStyle={this.props.type} onClick={this.sure.bind(this)}>OK</Button>)
+                                    }
+                                    return (<i></i>)
+                                })()
+                            }
+                            ,<Button onClick={this.props.close ? this.props.close : this.handleAlertDismiss.bind(this)}>Cloas</Button>
+                        </ButtonToolbar>
 
-                </Alert>
+                    </Alert>
+                </div>
             )
         }
         return (<i className="alert-fixed"></i>)

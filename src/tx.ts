@@ -13,11 +13,11 @@ import {
 let web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/Uw7vEslp5bpgqPgNkm05'))
 
-export function outputPayload(abi, contractName, ether = '', ...args) {
-  let solidityFunction = new SolidityFunction(ether, _.find(abi, {
-    name: contractName
-  }));
-  let payloadData = solidityFunction.toPayload(args).data;
+export function outputPayload(abi, ether = '', ...args) {
+  console.log(abi, ether ,args)
+  let solidityFunction = new SolidityFunction(ether, abi);
+  debugger
+  let payloadData = solidityFunction.toPayload(...args).data;
   return payloadData;
 }
 

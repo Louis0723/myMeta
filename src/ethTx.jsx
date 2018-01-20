@@ -78,6 +78,9 @@ export class EthTxComponent extends React.Component {
       });
     }
   }
+  closeAlert(){
+    this.setState({ alertVisible: false })
+  }
   componentWillMount() { }
   render() {
     return (
@@ -170,7 +173,7 @@ export class EthTxComponent extends React.Component {
         <ButtonGroup>
           <Button onClick={this.cancelTransaction}>Back Main Page</Button>
           <Button bsStyle="primary" onClick={() => { this.setState({ alertVisible: alert }) }}>Send Transaction</Button>
-          <AlertComponent visible={this.state.alertVisible} type="info" title="check send transaction" sure={this.sendTransaction.bind(this)} />
+          <AlertComponent visible={this.state.alertVisible} type="info" title="check send transaction" sure={this.sendTransaction.bind(this)} close={this.closeAlert.bind(this)} />
         </ButtonGroup>
         <Button bsStyle="danger" onClick={this.toTransaction}>Advanced Transaction</Button>
       </Form>
