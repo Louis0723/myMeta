@@ -3,6 +3,10 @@ import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { makePrivateKey } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from 'react-bootstrap';
+import { AlertComponent } from './alert'
+
+
+
 // import * as Identicon from 'identicon.js'
 // import {
 //   sha256
@@ -128,6 +132,7 @@ export class LoginComponent extends React.Component {
         {/* <Image href="#" circle height="120" width="120" alt="120*120" src={this.identicon()} /> */}
 
         <Button type="submit" >Login</Button>
+
       </Form>
     );
   }

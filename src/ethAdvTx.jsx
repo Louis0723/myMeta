@@ -23,7 +23,7 @@ export class EthAdvTxComponent extends React.Component {
       transactionBlock: 'Wait...',
       abi: [],
     }
-    web3.eth.getGasPrice((error, price) => {
+    this.props.web3.eth.getGasPrice((error, price) => {
       this.setState({
         transactionPrice: error ? '40' : price.toString() / 1000000000,
       })
@@ -50,9 +50,9 @@ export class EthAdvTxComponent extends React.Component {
   }
   sendTransaction() {
     if (this.state.address && this.state.transactionTo && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
-      let tx = outputRawTx(this.state.address, this.state.transactionTo, web3.toWei(this.state.transactionEther), this.state.transactionLimit, this.state.transactionPrice * 1000000000)
+      let tx = outputRawTx(this.state.address, this.state.transactionTo, this.props.web3.toWei(this.state.transactionEther), this.state.transactionLimit, this.state.transactionPrice * 1000000000)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
-      web3.eth.sendRawTransaction(txSigned, (err, txid) => {
+      this.props.web3.eth.sendRawTransaction(txSigned, (err, txid) => {
         if (err) {
           console.log('Error:');
           console.log(err);

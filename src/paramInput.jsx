@@ -63,11 +63,11 @@ export class ParamInputComponent extends React.Component {
 			this.props.setParamValue(this.props.index, this);
 		});
 		if (/\[\]/.test(this.state.inputType)) {
-			let number = Number(event.target.value) | 0;
+			let num = Number(event.target.value) | 0;
 			num = num > 100 ? 99 : num
 			num = num < -1 ? 0 : num
 			let array = []
-			for (let i = 0; i < Number(number | 0); i++) {
+			for (let i = 0; i < num ; i++) {
 				array.push(<ArrayInputComponent inputType={this.state.inputType} key={i} index={i + 1} setArrayValue={this.setArrayValue.bind(this)} />)
 			}
 			this.setState({ array: array }, () => {

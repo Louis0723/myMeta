@@ -13,7 +13,7 @@ export class MainComponent extends React.Component {
     let web3 = new Web3();
     // web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/metamask'))
     web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/Uw7vEslp5bpgqPgNkm05'));
-    window.web3 = web3
+    // window.web3 = web3
     this.state = {
       privateKey: this.props.privateKey,
       web3: web3,
@@ -23,7 +23,7 @@ export class MainComponent extends React.Component {
     return (
       <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
         <Tab eventKey={1} title="Ethereum">
-          <EthMainComponent privateKey={this.state.privateKey} web3={web3} />
+          <EthMainComponent privateKey={this.state.privateKey} web3={this.state.web3} />
         </Tab>
         <Tab eventKey={2} title="Bitcoin">
           <BtcMainComponent privateKey={this.state.privateKey} />

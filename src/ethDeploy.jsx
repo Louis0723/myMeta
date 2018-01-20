@@ -27,7 +27,7 @@ export class EthDeploySmartContractComponent extends React.Component {
       paramInput: [],
       abi:[],
     }
-    web3.eth.getGasPrice((error, price) => {
+    this.props.web3.eth.getGasPrice((error, price) => {
       this.setState({
         transactionPrice: error ? '40' : price.toString() / 1000000000,
       })
@@ -74,21 +74,21 @@ export class EthDeploySmartContractComponent extends React.Component {
       let payload=createContractPayload(this.state.abi,this.state.transactionData,this.state.params);
       let param = {
         from: this.state.address,
-        ether: web3.toWei(this.state.transactionEther),
+        ether: this.props.web3.toWei(this.state.transactionEther),
         gasLimit: this.state.transactionLimit,
         gasPrice: this.state.transactionPrice * 1000000000,
         payloadData: payload
       }
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
-      web3.eth.sendRawTransaction(txSigned, (err, txid) => {
+      this.props.web3.eth.sendRawTransaction(txSigned, (err, txid) => {
         if (err) {
           console.log(err);
         }
         else {
           this.setState({ transactionTxid: txid, transactionBlock: 'Wait...', transactionContractAddress: 'Wait...' })
           Observable.interval(3000).map(() => {
-            return web3.eth.getTransactionReceipt(txid)
+            return this.props.web3.eth.getTransactionReceipt(txid)
           }).filter(data => data).first().subscribe(data => {
             this.setState({ transactionBlock: data.blockNumber, transactionContractAddress: data.contractAddress || 'fails' })
           })
@@ -124,7 +124,6 @@ export class EthDeploySmartContractComponent extends React.Component {
           <ControlLabel>Contract Byte Code:</ControlLabel>
           <FormControl
             type="text"
-            componentClass="textarea" 
             placeholder="Contract Byte Code"
             value={this.state.transactionData}
             required

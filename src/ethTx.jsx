@@ -3,7 +3,7 @@ import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { outputRawTx, sign, privateKeyStringToBuffer } from './tx';
 import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
-
+import { AlertComponent } from './alert'
 
 export class EthTxComponent extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ export class EthTxComponent extends React.Component {
     let priv = props.privateKey;
     let address = props.address;
     this.state = {
+      alertVisible: false,
       address: address,
       privateKey: priv,
       transactionEther: '0',
@@ -23,7 +24,7 @@ export class EthTxComponent extends React.Component {
       transactionTxid: '',
       transactionBlock: 'Wait...',
     }
-    web3.eth.getGasPrice((error, price) => {
+    this.props.web3.eth.getGasPrice((error, price) => {
       this.setState({
         transactionPrice: error ? '40' : price.toString() / 1000000000,
       })
@@ -45,30 +46,31 @@ export class EthTxComponent extends React.Component {
     this.setState({ transactionPrice: event.target.value });
   }
   sendTransaction() {
+    this.setState({ alertVisible: false })
     if (this.state.address && this.state.transactionEther && this.state.transactionLimit && this.state.transactionPrice) {
 
       let param = {
         from: this.state.address,
-        ether: web3.toWei(this.state.transactionEther),
+        ether: this.props.web3.toWei(this.state.transactionEther),
         gasLimit: this.state.transactionLimit,
         gasPrice: this.state.transactionPrice * 1000000000,
       }
-      
+
       if (this.state.transactionData) {
-        param.payloadData = /^0x/.test(this.state.transactionData) ? this.state.transactionData : web3.toHex(this.state.transactionData);
+        param.payloadData = /^0x/.test(this.state.transactionData) ? this.state.transactionData : this.props.web3.toHex(this.state.transactionData);
       }
       this.state.transactionTo && (param.to = this.state.transactionTo);
 
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
-      web3.eth.sendRawTransaction(txSigned, (err, txid) => {
+      this.props.web3.eth.sendRawTransaction(txSigned, (err, txid) => {
         if (err) {
           console.log(err);
         }
         else {
           this.setState({ transactionTxid: txid, transactionBlock: 'Wait...' })
           Observable.interval(3000).map(() => {
-            return web3.eth.getTransactionReceipt(txid)
+            return this.props.web3.eth.getTransactionReceipt(txid)
           }).filter(data => data).first().subscribe(data => {
             this.setState({ transactionBlock: data.blockNumber })
           })
@@ -167,7 +169,8 @@ export class EthTxComponent extends React.Component {
         </FormGroup>
         <ButtonGroup>
           <Button onClick={this.cancelTransaction}>Back Main Page</Button>
-          <Button bsStyle="primary" onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>
+          <Button bsStyle="primary" onClick={() => { this.setState({ alertVisible: alert }) }}>Send Transaction</Button>
+          <AlertComponent visible={this.state.alertVisible} type="info" title="check send transaction" sure={this.sendTransaction.bind(this)} />
         </ButtonGroup>
         <Button bsStyle="danger" onClick={this.toTransaction}>Advanced Transaction</Button>
       </Form>

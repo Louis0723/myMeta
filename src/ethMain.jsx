@@ -18,15 +18,14 @@ export class EthMainComponent extends React.Component {
       privateKey: priv,
       address: addr,
       balance: '0.000000000000000000',
-      web3: web3,
       transactionState: 0,
-      passwordType: 'password'
+      passwordType: 'password',
     }
 
 
     this.getBalanceOb = Observable.interval(3000).mergeMap(() => {
       return Observable.create((observer) => {
-        web3.eth.getBalance(this.state.address, (error, result) => {
+        this.props.web3.eth.getBalance(this.state.address, (error, result) => {
           error && observer.error(error);
           error || observer.next(result);
           observer.complete();
