@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
 import * as Web3 from './web3';
 import * as EthereumTx from 'ethereumjs-tx';
 import * as SolidityFunction from './web3/lib/web3/function';

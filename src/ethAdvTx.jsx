@@ -69,7 +69,6 @@ export class EthAdvTxComponent extends React.Component {
   }
   componentWillMount() { }
   render() {
-
     let panel = []
     for (let index in this.state.abi) {
       if (this.state.abi[index].type !== "constructor") {

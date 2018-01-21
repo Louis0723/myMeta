@@ -18,7 +18,7 @@ export class EthDeploySmartContractComponent extends React.Component {
       privateKey: priv,
       transactionEther: '0',
       transactionData: '0x',
-      transactionLimit: '3000000',// 比 300000 多一個0
+      transactionLimit: '3000000',// 比 ethTx 多一個0
       transactionPrice: '40',
       transactionTxid: '',
       transactionBlock: 'Wait...',

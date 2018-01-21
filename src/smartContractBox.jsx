@@ -7,14 +7,56 @@ import { Observable } from 'rxjs';
 export class ContractBoxComponent extends React.Component {
   constructor(props) {
     super(props)
+    let parent = JSON.parse(JSON.stringify(this.props.parentState))
+    console.log('parent', parent)
     this.state = {
       transactionTxid: '',
       transactionBlock: 'Wait...',
       params: [],
-      parent: this.props.state
+      parent: parent
     }
+
+
+    let contract = this.props.web3.eth.contract(this.props.parentState.abi);
+    this.contractInstance = contract.at(this.props.parentState.transactionTo);
+    let ob;
+    console.log(this.props.abi)
+    if (this.props.abi.type !== 'event' && this.props.abi.outputs.length > 0) {
+      ob = Observable.interval(3000).mergeMap(() => {
+        return Observable.create((obser) => {
+          this.contractInstance[this.props.abi.name].call(...this.state.params, (e, r) => {
+            e && obser.error(e)
+            e || obser.next(r)
+            obser.complete();
+          })
+        })
+      }).catch(console.log).retry().subscribe((data) => {
+        console.log( JSON.parse(JSON.stringify(data)))
+      })
+    }
+
   }
+  // shouldComponentUpdate(nextProps){
+  //   // try{
+  //   //   if(this.state.parent.transactionTo!==nextProps.parentState.transactionTo || this.state.parent.abi !==nextProps.parentState.abi){
+  //   //     let contract = this.props.web3.eth.contract(nextProps.parentState.abi);
+  //   //     this.contractInstance = contract.at(nextProps.parentState.transactionTo);
+  //   //   }
+  //   // }catch(e){
+  //   //   console.log(this.state)
+  //   // }
+  //   // return false
+  // }
   componentWillReceiveProps(nextProps) {
+    // console.log('A',this.state.parent ,nextProps.parentState,this.props.abi,'B' )
+
+    if (this.state.parent.transactionTo !== nextProps.parentState.transactionTo || this.state.parent.abi !== nextProps.parentState.abi) {
+      let contract = this.props.web3.eth.contract(nextProps.parentState.abi);
+      this.contractInstance = contract.at(nextProps.parentState.transactionTo);
+    }
+
+    return false
+
     this.setState({
       parent: this.props.nextProps
     })
@@ -23,7 +65,7 @@ export class ContractBoxComponent extends React.Component {
   setParamValue(id, tag) {
     this.state.params[id] = tag.getValue();
     this.setState({ params: this.state.params });
-    console.log(this.state.params, tag, id)
+    // console.log(this.state.params, tag, id)
   }
 
   sendTransaction() {
