@@ -13,15 +13,16 @@ export class ContractBoxComponent extends React.Component {
       transactionTxid: '',
       transactionBlock: 'Wait...',
       params: [],
-      parent: parent
+      parent: parent,
+      outputResult: []
     }
 
 
-    let contract = this.props.web3.eth.contract(this.props.parentState.abi);
-    this.contractInstance = contract.at(this.props.parentState.transactionTo);
+
     let ob;
-    console.log(this.props.abi)
     if (this.props.abi.type !== 'event' && this.props.abi.outputs.length > 0) {
+      let contract = this.props.web3.eth.contract(this.props.parentState.abi);
+      this.contractInstance = contract.at(this.props.parentState.transactionTo);
       ob = Observable.interval(3000).mergeMap(() => {
         return Observable.create((obser) => {
           this.contractInstance[this.props.abi.name].call(...this.state.params, (e, r) => {
@@ -30,8 +31,8 @@ export class ContractBoxComponent extends React.Component {
             obser.complete();
           })
         })
-      }).catch(console.log).retry().subscribe((data) => {
-        console.log( JSON.parse(JSON.stringify(data)))
+      }).catch().retry().subscribe((data) => {
+        this.setState({ outputResult: JSON.parse(JSON.stringify(data, null, 2)) })
       })
     }
 
@@ -101,7 +102,16 @@ export class ContractBoxComponent extends React.Component {
     let send = [];
     if (!this.props.abi.constant && this.props.abi.type !== 'event') {
       send.push(<Button key={0} onClick={this.sendTransaction.bind(this)}>Send Transaction</Button>)
+    }
+    let output = []
+    if (this.props.abi.outputs && this.props.abi.outputs.length) {
 
+      for (let index in this.props.abi.outputs) {
+        output.push(<tr key={index}><td>{this.props.abi.outputs[index].name && this.props.abi.outputs[index].name + '-'}{this.props.abi.outputs[index].type}</td>
+          <td>{this.props.abi.outputs.length > 1 ? this.state.outputResult[index] : this.state.outputResult}</td></tr>
+
+        )
+      }
     }
     return (
       <Form>
@@ -150,11 +160,11 @@ export class ContractBoxComponent extends React.Component {
                   return (
                     <Table striped bordered condensed hover>
                       <thead><tr><th>Output</th><th>Call</th></tr></thead>
+                      <tbody>{output}</tbody>
                     </Table>)
                 }
               })()
             }
-
           </Panel.Body>
         </Panel>
       </Form>

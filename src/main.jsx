@@ -25,7 +25,7 @@ export class MainComponent extends React.Component {
         <Tab eventKey={1} title="Ethereum">
           <EthMainComponent privateKey={this.state.privateKey} web3={this.state.web3} />
         </Tab>
-        <Tab eventKey={2} title="Bitcoin">
+        <Tab eventKey={2} title="Bitcoin" disabled>
           <BtcMainComponent privateKey={this.state.privateKey} />
         </Tab>
         <Tab eventKey={3} title="Setting" >
