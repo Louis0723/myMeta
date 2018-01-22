@@ -26,14 +26,14 @@ open http://localhost:8080
 npm run build
 ```
 
-## Build to Electron
+<!-- ## Build to Electron -->
 
 <!-- change webpack.config.js
 delete the comment
 ```
 // target: 'electron-renderer', // 給electron用
 ``` -->
-install Electronn
+<!-- install Electronn
 ```
 npm i -g electron
 ```
@@ -47,4 +47,11 @@ choose platform
 npm run buildWindows
 npm run buildMacOS
 npm run buildLinux
-```
+``` -->
+
+# TODO
+1. Ethereum Smart Contract Event 
+2. Ethereum Deploy Fix
+2. Account Management
+3. Bitcoin Trasfer
+4. Bitcoin Smart Cointract
