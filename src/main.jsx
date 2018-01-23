@@ -5,15 +5,15 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { EthMainComponent } from './ethMain'
 import { BtcMainComponent } from './btcMain'
 import { SettingComponent } from './setting'
-
+import { env } from './env'
 
 export class MainComponent extends React.Component {
   constructor(props) {
     super(props);
     let web3 = new Web3();
     // web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/metamask'))
-    web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/Uw7vEslp5bpgqPgNkm05'));
-    // window.web3 = web3
+    web3.setProvider(new Web3.providers.HttpProvider(env.ethUrl));
+    window.web3 = web3
     this.state = {
       privateKey: this.props.privateKey,
       web3: web3,

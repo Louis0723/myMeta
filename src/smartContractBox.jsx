@@ -8,7 +8,6 @@ export class ContractBoxComponent extends React.Component {
   constructor(props) {
     super(props)
     let parent = JSON.parse(JSON.stringify(this.props.parentState))
-    console.log('parent', parent)
     this.state = {
       transactionTxid: '',
       transactionBlock: 'Wait...',
@@ -25,11 +24,13 @@ export class ContractBoxComponent extends React.Component {
       this.contractInstance = contract.at(this.props.parentState.transactionTo);
       ob = Observable.interval(3000).mergeMap(() => {
         return Observable.create((obser) => {
-          this.contractInstance[this.props.abi.name].call(...this.state.params, (e, r) => {
-            e && obser.error(e)
-            e || obser.next(r)
-            obser.complete();
-          })
+          try {
+            this.contractInstance[this.props.abi.name].call(...this.state.params, (e, r) => {
+              e && obser.error(e)
+              e || obser.next(r)
+              obser.complete();
+            })
+          } catch (e) { obser.complete() }
         })
       }).catch().retry().subscribe((data) => {
         this.setState({ outputResult: JSON.parse(JSON.stringify(data, null, 2)) })

@@ -6,7 +6,6 @@ import { Form, FormControl, ControlLabel, Button, FormGroup, InputGroup } from '
 import { AlertComponent } from './alert'
 
 
-
 // import * as Identicon from 'identicon.js'
 // import {
 //   sha256

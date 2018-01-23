@@ -5,16 +5,15 @@ import * as SolidityFunction from './web3/lib/web3/function';
 import * as wallet from 'ethereumjs-wallet';
 import { sha256 } from 'ethereumjs-util';
 import * as bs58 from 'bs58';
-import {
-  Buffer
-} from 'buffer';
+import { Buffer } from 'buffer';
+import { env } from './env'
 
 
 let web3 = new Web3();
-web3.setProvider(new Web3.providers.HttpProvider('https://ropsten.infura.io/Uw7vEslp5bpgqPgNkm05'))
+web3.setProvider(new Web3.providers.HttpProvider(env.ethUrl))
 
 export function outputPayload(abi, ether = '', ...args) {
-  console.log(abi, ether ,args)
+  console.log(abi, ether, args)
   let solidityFunction = new SolidityFunction(ether, abi);
   debugger
   let payloadData = solidityFunction.toPayload(...args).data;
