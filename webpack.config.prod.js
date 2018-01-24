@@ -17,7 +17,7 @@ module.exports = {
   entry: { // 進入點 使 index.html載入 
     app: [ // 匯出後js 名稱
       'react-hot-loader/patch',
-      './index.jsx',
+      './index.prod.jsx',
     ],
     // electronMain:[
     //   './electronMain.js'

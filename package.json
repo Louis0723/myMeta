@@ -8,7 +8,7 @@
     "install": "./install.sh",
     "build": "rimraf dist && webpack",
     "build.test": "rimraf dist && webpack --config webpack.config.test.js",
-    "build:prod": "rimraf dist && webpack -p --config webpack.config.prod.js",
+    "build.prod": "rimraf dist && webpack --config webpack.config.prod.js",
     "buildWindows": "electron-packager ./docs --platform=win32 --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
     "buildMacOS": "electron-packager ./docs --platform=darwin --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
     "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules"
