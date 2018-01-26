@@ -5,11 +5,16 @@
         "env",
         {
           "modules": false
+//          "targets": {
+//            "chrome": 52,
+//            "browsers": ["last 2 versions", "safari 7"]
+//          },
+//          "include": ["transform-es2015-classes"]
         }
       ],
       "react"
     ],
-    "plugins":[
+    "plugins":["transform-class-properties",
       "react-hot-loader/babel" 
     ]
   }
