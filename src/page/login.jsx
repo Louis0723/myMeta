@@ -5,25 +5,30 @@ import {
     ToggleButtonGroup, ToggleButton, Checkbox
 } from 'react-bootstrap';
 import {User} from '../vo/account';
+import * as GibberishAES from 'gibberish-aes/dist/gibberish-aes-1.0.0.min';
+import { sha256 } from 'ethereumjs-util';
+import StorageUtil from "../util/storageUtil";
 import { AlertComponent } from '../util/alert'
 
 
 export class LoginComponent extends React.Component {
 
-  constructor(props) {
-    super(props);
-      let lastLoginID = localStorage.getItem('userLoginID');
-      this.state = {
-          email: lastLoginID,
-          password: '',
-          privateKeyByPwd: '',
-          privateKeyInput: '',
-          passwordType: 'password',
-          loginType: 'email',
-          // address: ''
-      };
-      this.savePwdFlag = null;
-  }
+	constructor(props) {
+		super(props);
+		let lastLoginID = localStorage.getItem('userLoginID');
+		this.state = {
+			email: lastLoginID,
+			password: '',
+			privateKeyByPwd: '',
+			privateKeyInput: '',
+			passwordType: 'password',
+			loginType: 'email',
+			account:null,
+			accountPwd:null,
+			// address: ''
+		};
+		this.savePwdFlag = null;
+	}
 
   makePrivateKey() {
     let priv = makePrivateKey(this.state.email, this.state.password);
@@ -56,60 +61,68 @@ export class LoginComponent extends React.Component {
   }
 
   loginBtn(event) {
+	    event.preventDefault();
       let email = this.state.email;
       let password = this.state.password;
       let loginType = this.state.loginType;
       let privateKey = null;
+	    let user = new User();
       if (loginType === 'email') {
           /*檢查賬號密碼格式*/
           if (email !== '' && password !== '') {
               if (!(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email))) {
-                  event.preventDefault();
                   return;
               }
               if (!(/.{8,}/.test(password))) {
-                  event.preventDefault();
                   return;
               }
           } else if (Number(email === '') ^ Number(password === '')) {
-              event.preventDefault();
               return;
           }
           /*檢查賬號密碼格式*/
+	        let savePwdFlag = this.savePwdFlag;
+	        if (savePwdFlag) {
+		        localStorage.setItem('userLoginID', email);
+	        }
           privateKey = this.state.privateKeyByPwd;
-      } else {
+	        user.id = email;
+	        user.privateKey = privateKey;
+	        user.pwd = password;
+	        user.loginType = loginType;
+      } else if (loginType === 'private_key') {
           /*檢查金鑰登入方式*/
           privateKey = this.state.privateKeyInput;
           /*檢查金鑰登入方式*/
+	      user.privateKey = privateKey;
+	      user.loginType = loginType;
+      }else if(loginType === 'local_storage'){
+	      let account = this.state.account;
+	      let accountPwd = this.state.accountPwd;
+	      let sha256Pwd = sha256(accountPwd).toString('hex');
+	      let passwordHash = account.passwordHash;
+	      let privateKeyAES = account.privateKeyAES;
+	      if(sha256Pwd!==passwordHash) {
+		      alert('密碼錯誤!');
+		      return;
+	      }
+	      email = account.id;
+	      password = accountPwd;
+	      privateKey = GibberishAES.dec(privateKeyAES,passwordHash);
+	      user.id = email;
+	      user.privateKey = privateKey;
+	      user.pwd = password;
+	      user.loginType = loginType;
+      }else{
+	      return;
       }
       if (!(/^(0x)?[a-f0-9]+$/.test(privateKey))) {
-          event.preventDefault();
           return;
       }
       if (privateKey.length === 66 || privateKey.length === 64) {//如果長度正確
-          /*記錄私鑰*/
-          let keys = localStorage.getItem('privateKeys');
-          keys = !keys ? [] : JSON.parse(keys);
-          if (keys.indexOf(privateKey) === -1) {
-              keys.push(privateKey);
-          }
-          keys = JSON.stringify(keys);
-          localStorage.setItem('privateKeys', keys);
-          /*記錄私鑰*/
-          let savePwdFlag = this.savePwdFlag;
-          if (savePwdFlag) {
-              localStorage.setItem('userLoginID', email);
-          }
-
-          let user = new User();
-          user.id = email;
-          user.privateKey = privateKey;
-          user.loginType = loginType;
           this.props.login(user);
       } else {//私鑰長度不正確
 
       }
-      event.preventDefault();
   }
 
   // identicon() {
@@ -121,19 +134,16 @@ export class LoginComponent extends React.Component {
     return (
       <Form onSubmit={this.loginBtn.bind(this)}>
         <h1>The Wallet</h1>
-        {/*<ToggleButtonGroup type="radio" name="options" defaultValue={toggleButtonValue} onChange={this.changeLoginTypeBtn.bind(this)} >*/}
-          {/*/!*vertical*!/*/}
-          {/*<ToggleButton value="email">賬密</ToggleButton>*/}
-          {/*<ToggleButton value="private_key">私鑰</ToggleButton>*/}
-        {/*</ToggleButtonGroup>*/}
-        {/*onChange={this.changeLoginTypeBtn.bind(this)}*/}
           <FormGroup onChange={this.changeLoginTypeBtn.bind(this)}>
-              <Radio name="loginType" inline={true} value="email" title="登入模式:" checked={toggleButtonValue==='email'?'checked':''} >
+              <Radio name="loginType" inline={true} value="email" checked={toggleButtonValue==='email'?'checked':''} >
                   賬密
-              </Radio>{' '}
-              <Radio name="loginType" inline={true} value="private_key" title="登入模式:" checked={toggleButtonValue==='private_key'?'checked':''} >
+              </Radio>
+              <Radio name="loginType" inline={true} value="private_key" checked={toggleButtonValue==='private_key'?'checked':''} >
                   私鑰
-              </Radio>{' '}
+              </Radio>
+              <Radio name="loginType" inline={true} value="local_storage" checked={toggleButtonValue==='local_storage'?'checked':''} >
+                  記憶
+              </Radio>
           </FormGroup>
           {(() => {
             if(toggleButtonValue === 'email'){
@@ -195,6 +205,37 @@ export class LoginComponent extends React.Component {
                   </FormGroup>
                 </div>);
             }
+            else if(toggleButtonValue === 'local_storage'){
+              let accounts = StorageUtil.accounts;
+              let {account,accountPwd} = this.state;
+	            let account_key = account ? account.name : '';
+	            return (<div>
+                <FormGroup controlId="formControlsSelect" >
+                  <ControlLabel>請選擇賬號:</ControlLabel>
+                  <FormControl componentClass="select" placeholder="select" onChange={this.onChangeAccount} >
+                    <option value=""></option>
+                    {
+	                    [...accounts].map((elt) => {
+		                    let key = elt[0];
+		                    return <option value={key} selected={account_key===key}>{key}</option>;
+	                    })
+                    }
+                  </FormControl>
+                  {
+                    !account?'':(<div>
+                      <ControlLabel>密碼:</ControlLabel>
+                      <FormControl type="password"
+                                   value={accountPwd}
+                                   placeholder="Password"
+                                   pattern=".{8,}"
+                                   onChange={this.changeAccountPwd}
+                      />
+                    </div>)
+                  }
+
+                </FormGroup>
+              </div>);
+            }
           })()}
 
         <Button type="submit" >Login</Button>
@@ -214,4 +255,18 @@ export class LoginComponent extends React.Component {
           this.savePwdFlag = '';
       }
     }
+
+	onChangeAccount = (elt) => {
+
+		let value = elt.target.value;
+		let accounts = StorageUtil.accounts;
+		let account = accounts.get(value);
+		this.setState({account,accountPwd:''});
+	};
+
+	changeAccountPwd = (elt) => {
+		let value = elt.target.value;
+		this.setState({accountPwd:value});
+	};
+
 }

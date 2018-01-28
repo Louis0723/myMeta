@@ -20,25 +20,28 @@ export class ManagementComponent extends React.Component {
 	 */
 
 	render() {
+		let loginUser = UserDomain.loginUser;
+		let loginType = loginUser.loginType;
 		return (
-				<Form>
+				<Form onSubmit={this.saveAccountToLocalStorage}>
 					<FormGroup>
 						<ControlLabel>儲存名稱:</ControlLabel>
 						<FormControl
 								type="text"
 								onChange={this.onChangeAccountName}
-								pattern="^[a-z0-9]$"
 						/>
 					</FormGroup>
-					<FormGroup>
-						<ControlLabel>儲存密碼:</ControlLabel>
-						<FormControl
-								type="text"
-								onChange={this.onChangeAccountPwd}
-								pattern="^[a-z0-9]$"
-						/>
-					</FormGroup>
-					<Button onClick={this.saveAccountToLocalStorage}>儲存此賬戶</Button>
+					{loginType==='email'?'':(<div>
+						<FormGroup>
+							<ControlLabel>儲存密碼:</ControlLabel>
+							<FormControl
+									type="password"
+									onChange={this.onChangeAccountPwd}
+									pattern="^.{8,}$"
+							/>
+						</FormGroup>
+					</div>)}
+					<Button type="submit">儲存此賬戶</Button>
 					<Button onClick={this.clearAccountToLocalStorage}>清除此賬戶</Button>
 					{/*<Button onClick={this.doTestAES256Btn} >AES測試</Button>*/}
 					{/*<Button>Save Account {/Electron/.test(navigator.userAgent)?'':'To This Browser'}</Button>*/}
@@ -53,7 +56,8 @@ export class ManagementComponent extends React.Component {
 		alert(decEnc);
 	}
 
-	saveAccountToLocalStorage = () => {
+	saveAccountToLocalStorage = (event) => {
+		event.preventDefault();
 		let {accountName,accountPwd} = this.state;
 		let loginUser = UserDomain.loginUser;
 		let loginType = loginUser.loginType;
@@ -80,7 +84,15 @@ export class ManagementComponent extends React.Component {
 			let sha256Pwd = sha256(accountPwd);
 			account.passwordHash = sha256Pwd.toString('hex');
 			account.privateKeyAES = GibberishAES.enc(privateKey, account.passwordHash);
-		} else if (loginType === 'privateKey') {
+		} else if (loginType === 'private_key') {
+			if(!accountPwd) {
+				alert(`請輸入存儲密碼!`);
+				return;
+			}
+			let sha256Pwd = sha256(accountPwd);
+			account.passwordHash = sha256Pwd.toString('hex');
+			account.privateKeyAES = GibberishAES.enc(privateKey, account.passwordHash);
+		} else if(loginType === 'local_storage'){
 			if(!accountPwd) {
 				alert(`請輸入存儲密碼!`);
 				return;

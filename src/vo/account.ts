@@ -17,3 +17,5 @@ export class Account {
 	passwordHash: string; //  * passwordHash : sha256(password)
 	privateKeyAES: string;//  * privateKeyAES : aes(password,privateKey)
 }
+
+export default User;
