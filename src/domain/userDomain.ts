@@ -1,4 +1,4 @@
-import {User} from '../vo/account';
+import {User} from "../vo/account";
 
 class UserDomain_ {
     loginUser: User = null;

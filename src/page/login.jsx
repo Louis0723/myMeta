@@ -102,8 +102,9 @@ export class LoginComponent extends React.Component {
           }
 
           let user = new User();
+          user.id = email;
           user.privateKey = privateKey;
-
+          user.loginType = loginType;
           this.props.login(user);
       } else {//私鑰長度不正確
 

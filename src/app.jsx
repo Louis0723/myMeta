@@ -12,6 +12,7 @@ export class AppComponent extends React.Component {
     }
   }
   Login(loginUser) {
+	  UserDomain.loginUser = loginUser;
     this.setState({ loginUser });
   }
   Logout() {
@@ -23,7 +24,10 @@ export class AppComponent extends React.Component {
   }
   render() {
     let loginUser = UserDomain.loginUser;
-    let privateKey = loginUser.privateKey;
+	  let privateKey = '';
+    if(loginUser){
+	    privateKey = loginUser.privateKey;
+    }
       return (
       <Grid><Row><Col xs={10} xsOffset={1} sm={8} smOffset={2} md={6} mdOffset={3}>
         {privateKey ? <MainComponent privateKey={privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />}
