@@ -1,6 +1,6 @@
-import { outputPayload, outputRawTx, sign, privateKeyStringToBuffer, parseWIF } from './tx';
+import { outputPayload, outputRawTx, sign, privateKeyStringToBuffer, parseWIF } from './vo/tx';
 import * as Web3 from './web3';
-import { env } from './env'
+import { env } from './vo/env'
 
 let web3 = new Web3();
 web3.setProvider(new Web3.providers.HttpProvider(env.ethUrl))

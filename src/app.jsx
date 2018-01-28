@@ -1,25 +1,32 @@
 import * as React from 'react';
-import { LoginComponent } from './login';
-import { MainComponent } from './main';
+import { LoginComponent } from './page/login';
+import { MainComponent } from './page/main';
 import { Grid, Row, Col } from 'react-bootstrap';
+import UserDomain from "./domain/userDomain";
 
 export class AppComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      privateKey: null,
+      loginUser: null,
     }
   }
-  Login(privateKey) {
-    this.setState({ privateKey });
+  Login(loginUser) {
+    this.setState({ loginUser });
   }
   Logout() {
-    this.setState({ privateKey: null });
+    let loginUser = UserDomain.loginUser;
+    if(loginUser) {
+        loginUser.privateKey = '';
+    }
+    this.setState({ loginUser});
   }
   render() {
-    return (
+    let loginUser = UserDomain.loginUser;
+    let privateKey = loginUser.privateKey;
+      return (
       <Grid><Row><Col xs={10} xsOffset={1} sm={8} smOffset={2} md={6} mdOffset={3}>
-        {this.state.privateKey ? <MainComponent privateKey={this.state.privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />}
+        {privateKey ? <MainComponent privateKey={privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />}
       </Col></Row></Grid>
     );
   }

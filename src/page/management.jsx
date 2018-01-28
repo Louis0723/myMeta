@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Form,Button }  from 'react-bootstrap';
 import * as GibberishAES from 'gibberish-aes/dist/gibberish-aes-1.0.0.min';
+import UserDomain from "../domain/userDomain";
 
 export class ManagementComponent extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export class ManagementComponent extends React.Component {
   render() {
     return (
       <Form>
+        <Button>儲存此賬戶</Button>
         <Button onClick={this.doTestAES256Btn} >AES測試</Button>
         <Button>Save Account {/Electron/.test(navigator.userAgent)?'':'To This Browser'}</Button>
       </Form>
