@@ -1,7 +1,7 @@
-import Account from '../vo/account';
+import {User} from '../vo/account';
 
 class UserDomain_ {
-    loginUser: Account = null;
+    loginUser: User = null;
     // * id : sha256(privateKey)
     // * name : sha256(privateKey) *default
     // * passwordHash : sha256(password)

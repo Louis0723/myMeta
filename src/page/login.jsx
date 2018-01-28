@@ -4,13 +4,9 @@ import {
     Form, FormControl, ControlLabel, Button, FormGroup, InputGroup, Radio,
     ToggleButtonGroup, ToggleButton, Checkbox
 } from 'react-bootstrap';
+import {User} from '../vo/account';
 import { AlertComponent } from '../util/alert'
-import Account from '../vo/account';
 
-// import * as Identicon from 'identicon.js'
-// import {
-//   sha256
-// } from 'ethereumjs-util';
 
 export class LoginComponent extends React.Component {
 
@@ -104,14 +100,11 @@ export class LoginComponent extends React.Component {
           if (savePwdFlag) {
               localStorage.setItem('userLoginID', email);
           }
-          /*save Account */
-          let account = new Account();
-          account.id = email;
-          account.loginType = loginType;
-          account.password = password;
-          account.privateKey = privateKey;
-          /*save Account */
-          this.props.login(account);
+
+          let user = new User();
+          user.privateKey = privateKey;
+
+          this.props.login(user);
       } else {//私鑰長度不正確
 
       }
