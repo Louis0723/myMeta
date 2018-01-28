@@ -1,13 +1,7 @@
-import Account from '../vo/account';
+import {Account} from '../vo/account';
+import { sha256 } from 'ethereumjs-util';
 
 class AccountUtil_ {
-	//
-	// /**
-	//  * id : sha256(privateKey)
-	//  * name : sha256(privateKey) *default
-	//  * passwordHash : sha256(password)
-	//  * privateKeyAES : aes(password,privateKey)
-	//  */
 
 	getAccountList(): any {
 		let accountList: any = localStorage.getItem('AccountList');
@@ -40,7 +34,7 @@ class AccountUtil_ {
 	}
 
 	checkMatch(id, password): boolean {
-		let accountList = getAccountList();
+		let accountList = this.getAccountList();
 		// if (accountList[id]) {
 		//     return accountList[id].passwordHash === sha256(password);
 		// }
@@ -49,18 +43,18 @@ class AccountUtil_ {
 	}
 
 	saveAccount(id, name, password): boolean { // 注意密碼不可更改
-		let accountList = getAccountList();
-		if (checkMatch(id, password)) {
+		let accountList = this.getAccountList();
+		if (this.checkMatch(id, password)) {
 			accountList[0].name = name;
-			setAccountList(accountList);
+			this.setAccountList(accountList);
 		} else {
 			return false
 		}
 	}
 
 	getAccount(id, password): any {
-		let accountList = getAccountList();
-		if (checkMatch(id, password)) {
+		let accountList = this.getAccountList();
+		if (this.checkMatch(id, password)) {
 			accountList[0].privateKey = accountList[0].privateKeyHash // To Do: accountList[0].privateKey = AES解密(accountList[0].privateKeyHash,password)
 			return accountList[0];
 		}
