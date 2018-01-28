@@ -7,11 +7,7 @@ export class User {
 	account: Account = new Account;//永久存儲用
 }
 
-export class StorageAccounts implements Map<string, Account> {
-	constructor(...args) {
-		let map = new Map<string,Account>();
-		return map;
-	}
+export class StorageAccounts extends Map implements Map<string, Account> {
 	//強制形別
 }
 

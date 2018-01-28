@@ -39,6 +39,7 @@ export class ManagementComponent extends React.Component {
 						/>
 					</FormGroup>
 					<Button onClick={this.saveAccountToLocalStorage}>儲存此賬戶</Button>
+					<Button onClick={this.clearAccountToLocalStorage}>清除此賬戶</Button>
 					{/*<Button onClick={this.doTestAES256Btn} >AES測試</Button>*/}
 					{/*<Button>Save Account {/Electron/.test(navigator.userAgent)?'':'To This Browser'}</Button>*/}
 				</Form>
@@ -69,7 +70,7 @@ export class ManagementComponent extends React.Component {
 		if(account) {
 			alert('已存在的存儲名稱!');
 			return;
-		}{
+		}else {
 			account = new Account();
 		}
 		account.name = accountName;
@@ -96,6 +97,19 @@ export class ManagementComponent extends React.Component {
 		alert('儲存成功!');
 	};
 
+
+	clearAccountToLocalStorage = () => {
+		let {accountName,accountPwd} = this.state;
+		let accounts = StorageUtil.accounts;
+		let account = accounts.get(accountName);
+		if(!account) {
+			alert('指定名稱賬號不存在無法清除!');
+			return;
+		}
+		accounts.delete(accountName);
+		StorageUtil.accounts = accounts;
+		alert('清除名稱記錄成功!');
+	};
 
 	onChangeAccountName = (e) => {
 		this.setState({accountName:e.target.value});
