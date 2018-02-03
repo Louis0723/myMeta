@@ -6,7 +6,6 @@ import * as bs58 from 'bs58';
 import { Buffer } from 'buffer';
 import { env } from './env'
 import * as wallet from 'ethereumjs-wallet';
-// import * as _ from 'lodash';
 
 
 let web3 = new Web3();
@@ -86,4 +85,10 @@ export function makePrivateKey(email: string, password: string) {
   };
 
   return s;
+}
+
+export function getFilterWeb3(){
+  let web3 = new Web3();
+  web3.setProvider(new Web3.providers.HttpProvider(env.filterUrl))
+  return web3;
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { outputRawTx, sign, privateKeyStringToBuffer } from '../vo/tx';
-import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, ButtonGroup, Row, Col } from 'react-bootstrap';
 import { AlertComponent } from '../util/alert'
 
 export class EthTxComponent extends React.Component {
@@ -78,10 +78,10 @@ export class EthTxComponent extends React.Component {
       });
     }
   }
-  closeAlert(){
+  closeAlert() {
     this.setState({ alertVisible: false })
   }
-  componentWillMount() { }
+  componentWillUnmount() { }
   render() {
     return (
       <Form>
@@ -105,26 +105,34 @@ export class EthTxComponent extends React.Component {
             onChange={this.setTransactionTo.bind(this)}
           />
         </FormGroup>
-        <FormGroup>
-          <ControlLabel>Gas Limit:</ControlLabel>
-          <FormControl
-            type="number"
-            placeholder=""
-            required
-            value={this.state.transactionLimit}
-            onChange={this.setTransactionLimit.bind(this)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <ControlLabel>Gas Price(Gwei):</ControlLabel>
-          <FormControl
-            type="number"
-            placeholder=""
-            required
-            value={this.state.transactionPrice}
-            onChange={this.setTransactionPrice.bind(this)}
-          />
-        </FormGroup>
+
+        <Row>
+          <Col xs={6}>
+            <FormGroup>
+              <ControlLabel>Gas Limit:</ControlLabel>
+              <FormControl
+                type="number"
+                placeholder=""
+                required
+                value={this.state.transactionLimit}
+                onChange={this.setTransactionLimit.bind(this)}
+              />
+            </FormGroup>
+          </Col>
+          <Col xs={6}>
+            <FormGroup>
+              <ControlLabel>Gas Price(Gwei):</ControlLabel>
+              <FormControl
+                type="number"
+                placeholder=""
+                required
+                value={this.state.transactionPrice}
+                onChange={this.setTransactionPrice.bind(this)}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
         <FormGroup>
           <ControlLabel>Data(Option):</ControlLabel>
           <FormControl

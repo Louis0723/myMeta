@@ -1,0 +1,19 @@
+image: node:8.9.4-wheezy
+
+variables:
+  ENV: production
+
+before_script:
+  - ./install.sh
+
+pages:
+  stage: deploy
+  script:
+    - CI=true npm run build.test
+    - rm -rf public 2>&1
+    - mv docs public
+  artifacts:
+    paths:
+      - public # GitLab pages serve from a 'public' directory
+  only:
+    - master # run on master branch

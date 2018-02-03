@@ -97,7 +97,7 @@ export class EthDeploySmartContractComponent extends React.Component {
     }
   }
 
-  componentWillMount() { }
+  componentWillUnmount() { }
   render() {
     return (
       <Form>

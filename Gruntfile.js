@@ -3,7 +3,7 @@ grunt.config.init({
     pkg: grunt.file.readJSON('docs/package.json'),
     'create-windows-installer': {
         x64: {
-            version:"0.4.1",
+            version:"0.5.0",
             appDirectory: './TheWallet/thewallet-win32-x64',
             outputDirectory:'./',
             title:"The Wallet Install",

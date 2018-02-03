@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as wallet from 'ethereumjs-wallet';
 import { Observable } from 'rxjs';
 import { outputRawTx, sign, privateKeyStringToBuffer } from '../vo/tx';
-import { Form, FormControl, ControlLabel, Button, FormGroup, PanelGroup, Panel } from 'react-bootstrap';
+import { Form, FormControl, ControlLabel, Button, FormGroup, PanelGroup, Panel, Row, Col } from 'react-bootstrap';
 import { ContractBoxComponent } from './smartContractBox'
 
 
@@ -60,25 +60,25 @@ export class EthAdvTxComponent extends React.Component {
         gasPrice: this.state.transactionPrice * 1000000000,
         payloadData: payload
       }
-      console.log('param',param)
+      console.log('param', param)
       let tx = outputRawTx(param)
       let txSigned = sign(privateKeyStringToBuffer(this.state.privateKey), tx);
       return txSigned
     }
   }
-  componentWillMount() { }
+  componentWillUnmount() { }
   render() {
     let panel = []
     for (let index in this.state.abi) {
       if (this.state.abi[index].type !== "constructor") {
         panel.push(
-          <ContractBoxComponent 
-          abi={this.state.abi[index]} 
-          index={index} 
-          key={index} 
-          parentState={this.state} 
-          sendTransaction={this.sendTransaction.bind(this)}
-          web3={this.props.web3}
+          <ContractBoxComponent
+            abi={this.state.abi[index]}
+            index={index}
+            key={index}
+            parentState={this.state}
+            sendTransaction={this.sendTransaction.bind(this)}
+            web3={this.props.web3}
           />
         )
       }
@@ -97,59 +97,78 @@ export class EthAdvTxComponent extends React.Component {
               onChange={this.setTransactionEther.bind(this)}
             />
           </FormGroup>
-          <FormGroup>
-            <ControlLabel>Contract ABI:</ControlLabel>
-            <FormControl
-              type="text"
-              placeholder="Contract ABI"
-              required
-              onChange={this.setAbi.bind(this)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Contract Address:</ControlLabel>
-            <FormControl
-              type="text"
-              placeholder="Contract Address"
-              required
-              value={this.state.transactionTo}
-              onChange={this.setTransactionTo.bind(this)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Gas Limit:</ControlLabel>
-            <FormControl
-              type="number"
-              placeholder=""
-              required
-              value={this.state.transactionLimit}
-              onChange={this.setTransactionLimit.bind(this)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Gas Price(Gwei):</ControlLabel>
-            <FormControl
-              type="number"
-              placeholder=""
-              required
-              value={this.state.transactionPrice}
-              onChange={this.setTransactionPrice.bind(this)}
-            />
-          </FormGroup>
+          <Row>
+            <Col xs={6}>
+              <FormGroup>
+                <ControlLabel>Contract ABI:</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Contract ABI"
+                  required
+                  onChange={this.setAbi.bind(this)}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={6}>
+              <FormGroup>
+                <ControlLabel>Contract Address:</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Contract Address"
+                  required
+                  value={this.state.transactionTo}
+                  onChange={this.setTransactionTo.bind(this)}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={6}>
+              <FormGroup>
+
+                <ControlLabel>Gas Limit:</ControlLabel>
+                <FormControl
+                  type="number"
+                  placeholder=""
+                  required
+                  value={this.state.transactionLimit}
+                  onChange={this.setTransactionLimit.bind(this)}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={6}>
+              <FormGroup>
+                <ControlLabel>Gas Price(Gwei):</ControlLabel>
+                <FormControl
+                  type="number"
+                  placeholder=""
+                  required
+                  value={this.state.transactionPrice}
+                  onChange={this.setTransactionPrice.bind(this)}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
           <FormGroup>
             <ControlLabel>Max Spend Gas :{(this.state.transactionPrice / 1000000000 * this.state.transactionLimit).toFixed(18)}</ControlLabel>
           </FormGroup>
+          <FormGroup>
           <Button onClick={this.cancelTransaction}>Back Main Page</Button>
           <Button bsStyle="danger" onClick={this.toTransaction}>Deploy SmartContract</Button>
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Function:</ControlLabel>
+            <PanelGroup
+              style={{ "overflowY": "scroll", "mixHeight": "200px" }}
+              accordion
+              id="accordion-controlled-example"
+              activeKey={this.state.activeKey}
+              onSelect={this.handleSelect.bind(this)}
+            >
+              {panel}
+            </PanelGroup>
+          </FormGroup>
         </Form>
-        <PanelGroup
-          accordion
-          id="accordion-controlled-example"
-          activeKey={this.state.activeKey}
-          onSelect={this.handleSelect.bind(this)}
-        >
-          {panel}
-        </PanelGroup>
       </div>
     )
   }

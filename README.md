@@ -1,16 +1,18 @@
 # 盧瑞山教授團隊製作：錢包
 # Wallet : Made in Pro. Rei-Shan Lu Team
 
-## [Live](https://lursun.github.io/myMeta)
+## [Live Wallet of Ethereum Test Netword](https://reishanluteam.gitlab.io/theWallet)
 ```sh
 open https://lursun.github.io/myMeta
 ```
 
+##
+
 ## Install
 ```sh
-npm run install
+sudo apt-get install g++ #Debain
 ```
-or
+
 ```sh
 ./install.sh
 ```
