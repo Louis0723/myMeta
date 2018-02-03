@@ -3,6 +3,7 @@ let HtmlWebpackPlugin = require('html-webpack-plugin'); //打包到某某目錄
 let webpack = require('webpack');
 let ExtractTextPlugin = require('extract-text-webpack-plugin'); //處理css 之類的
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+let WriteFilePlugin=require('write-file-webpack-plugin');
 let {
   CheckerPlugin
 } = require('awesome-typescript-loader'); // 緩存加速ts 編譯
@@ -18,6 +19,9 @@ module.exports = {
     app: [ // 匯出後js 名稱
       'react-hot-loader/patch',
       './index.jsx',
+    ],
+	  background: [ //background
+      './background.js',
     ],
     // electronMain:[
     //   './electronMain.js'
@@ -118,14 +122,16 @@ module.exports = {
     //   }  
     // }),
     //Generate index.html in /docs => https://github.com/ampedandwired/html-webpack-plugin
+	  new WriteFilePlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./docs/
       template: 'index.html', //Name of template in ./src
+	    excludeChunks:['background'],
       hash: true,
     }),
-    new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
-      names: ['vendor', 'manifest'],
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
+    //   names: ['vendor', 'manifest'],
+    // }),
     new webpack.HashedModuleIdsPlugin(),
     new ExtractTextPlugin({
       filename: '[name].css',
