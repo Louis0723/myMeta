@@ -9,7 +9,7 @@ before_script:
 pages:
   stage: deploy
   script:
-    - CI=true npm run build.test
+    - CI=true npm run build.web.prod
     - rm -rf public 2>&1
     - mv docs public
   artifacts:

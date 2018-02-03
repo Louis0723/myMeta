@@ -1,11 +1,12 @@
 let path = require('path');
-let HtmlWebpackPlugin = require('html-webpack-plugin'); //打包到某某目錄
 let webpack = require('webpack');
+let HtmlWebpackPlugin = require('html-webpack-plugin'); // 支援樣板
 let ExtractTextPlugin = require('extract-text-webpack-plugin'); //處理css 之類的
-let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-let {
-  CheckerPlugin
-} = require('awesome-typescript-loader'); // 緩存加速ts 編譯
+let UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 壓縮 & 混淆
+let WriteFilePlugin = require('write-file-webpack-plugin'); // npm start + 輸出目錄
+let OpenBrowserPlugin = require('open-browser-webpack-plugin'); // 自動開啟瀏覽器
+let CopyWebpackPlugin = require('copy-webpack-plugin'); // 直接複製目錄檔案
+let CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin; // 緩存加速ts 編譯
 let basePath = __dirname;
 
 module.exports = {
@@ -22,10 +23,10 @@ module.exports = {
     // electronMain:[
     //   './electronMain.js'
     // ],
-    vendor: [ // 外部資源
-      'react',
-      'react-dom',
-    ],
+    // vendor: [ // 外部資源
+    //   'react',
+    //   'react-dom',
+    // ],
     vendorStyles: [ // 外部資源
       '../node_modules/bootstrap/dist/css/bootstrap.css',
     ],
@@ -36,6 +37,10 @@ module.exports = {
   },
   module: {
     rules: [ //規則
+      {
+        test: /^manifest.js$/,
+        loader: 'file-loader',
+      },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/, //不要去爬 node_modules
@@ -105,7 +110,7 @@ module.exports = {
     ],
   },
   // For development https://webpack.js.org/configuration/devtool/#for-development
-  devtool: 'inline-source-map', //老實說不知道怎麼用它
+  // devtool: 'inline-source-map', //老實說不知道怎麼用它
   devServer: {
     port: 8080,
     hot: true,
@@ -118,14 +123,15 @@ module.exports = {
       }  
     }),
     //Generate index.html in /docs => https://github.com/ampedandwired/html-webpack-plugin
+    new WriteFilePlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./docs/
       template: 'index.html', //Name of template in ./src
       hash: true,
     }),
-    new webpack.optimize.CommonsChunkPlugin({ //還不是很清楚作用
-      names: ['vendor', 'manifest'],
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({ // 還不是很清楚作用
+    //   names: ['vendor', 'manifest'],
+    // }),
     new webpack.HashedModuleIdsPlugin(),
     new ExtractTextPlugin({
       filename: '[name].css',
@@ -138,8 +144,10 @@ module.exports = {
       "process.env": { 
         NODE_ENV: JSON.stringify("production") 
       },
-      ENV: JSON.stringify('development')
-    })
-      
+      'ENV': JSON.stringify('production')
+    }),
+    new OpenBrowserPlugin({ // 自動開啟瀏覽器
+      url: 'http://localhost:8080'
+    }),
   ],
 };

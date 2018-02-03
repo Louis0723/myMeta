@@ -119,12 +119,12 @@ module.exports = {
     hot: true,
   },
   plugins: [
-    // new UglifyJsPlugin({ // 壓縮混淆
-    //   uglifyOptions: {
-    //     compress: true,
-    //     warnings: true,
-    //   }  
-    // }),
+    new UglifyJsPlugin({ // 壓縮混淆
+      uglifyOptions: {
+        compress: true,
+        warnings: true,
+      }  
+    }),
     //Generate index.html in /docs => https://github.com/ampedandwired/html-webpack-plugin
     new WriteFilePlugin(),
     new HtmlWebpackPlugin({
@@ -145,7 +145,10 @@ module.exports = {
     new CheckerPlugin(), // 緩存加速ts 編譯
     new webpack.HotModuleReplacementPlugin(), // 熱修改 使[chunkhash]. 省略
     new webpack.DefinePlugin({
-      'ENV': JSON.stringify(process.env.NODE_ENV)
+      "process.env": { 
+        NODE_ENV: JSON.stringify("production") 
+      },
+      'ENV': JSON.stringify('development')
     }),
     new OpenBrowserPlugin({ // 自動開啟瀏覽器
       url: 'http://localhost:8080'

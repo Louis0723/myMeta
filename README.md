@@ -3,7 +3,7 @@
 
 ## [Live Wallet of Ethereum Test Netword](https://reishanluteam.gitlab.io/theWallet)
 ```sh
-open https://lursun.github.io/myMeta
+open https://reishanluteam.gitlab.io/theWallet/
 ```
 
 ##

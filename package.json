@@ -6,8 +6,10 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "rimraf dist && webpack",
-    "build.test": "rimraf dist && webpack --config webpack.config.test.js",
-    "build.prod": "rimraf dist && webpack --config webpack.config.prod.js",
+    "build.web.test": "rimraf dist && webpack --config webpack.web.test.config.js",
+    "build.web.prod": "rimraf dist && webpack --config webpack.web.prod.config.js",
+    "build.extension.test": "rimraf dist && webpack --config webpack.extension.config.test.js",
+    "build.extension.prod": "rimraf dist && webpack --config webpack.extension.config.prod.js",
     "buildWindows": "electron-packager ./docs --platform=win32 --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
     "buildMacOS": "electron-packager ./docs --platform=darwin --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules",
     "buildLinux": "electron-packager ./docs --platform=linux --win --out TheWallet --arch=x64 --overwrite --ignore=node_modules"
