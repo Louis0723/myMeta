@@ -3,6 +3,7 @@ import { LoginComponent } from './page/login';
 import { MainComponent } from './page/main';
 import { Grid, Row, Col } from 'react-bootstrap';
 import UserDomain from "./domain/userDomain";
+import {LoginState} from "./vo/state/top_state";
 
 export class AppComponent extends React.Component {
   constructor(props) {
@@ -10,6 +11,8 @@ export class AppComponent extends React.Component {
     this.state = {
       loginUser: null,
     }
+	  let loginState = new LoginState();
+	  this.loginState = loginState;
   }
   Login(loginUser) {
 	  UserDomain.loginUser = loginUser;
@@ -30,7 +33,8 @@ export class AppComponent extends React.Component {
     }
       return (
       <Grid><Row><Col xs={10} xsOffset={1} sm={8} smOffset={2} md={6} mdOffset={3}>
-        {privateKey ? <MainComponent privateKey={privateKey} logout={this.Logout.bind(this)} /> : <LoginComponent login={this.Login.bind(this)} />}
+        {privateKey ? <MainComponent privateKey={privateKey} logout={this.Logout.bind(this)} /> :
+		        <LoginComponent loginState={this.loginState} login={this.Login.bind(this)} />}
       </Col></Row></Grid>
     );
   }
