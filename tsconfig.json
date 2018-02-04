@@ -6,6 +6,7 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
     "lib": [
       "dom",
       "es6",
