@@ -8,7 +8,7 @@
     "48": "img/logo_48.png",
     "128": "img/logo_128.png"
   },
-  "default_locale": "en", //需要 /_locales 目錄
+  "default_locale": "en", 
   "background": {
     "scripts": ["background.js"]
   },
@@ -17,19 +17,19 @@
     "default_title": "The Wallet",
     "default_icon": "img/logo_16.png"
   },
-  //  在網址旁邊
-  //    "page_action": { 
-  //     "default_icon": "icons/foo.png", // 可選
-  //     "default_title": "Tooltip title",    // 可選
-  //     "default_popup": "popup.html"    // 可選，滑鼠單擊會呈現的內容
-  //   },
+  
   "content_scripts": [{
     "js": ["background.js"],
     "matches": ["<all_urls>"],
     "run_at": "document_start"
   }],
   "permissions": ["storage", "http://*/", "https://*/"]
-
+//  在網址旁邊
+  //    "page_action": { 
+  //     "default_icon": "icons/foo.png", // 可選
+  //     "default_title": "Tooltip title",    // 可選
+  //     "default_popup": "popup.html"    // 可選，滑鼠單擊會呈現的內容
+  //   },
   //   "web_accessible_resources": ["js/libs/jquery.min.js"]
   //   "update_url": "https://clients2.google.com/service/update2/crx",
   //   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgRLkoYUUDW9p9eBSu0/8wr6tr56i+xB3+2rAIY65FO26dBITx1bhMpk6nB0u6/TmQUk3ai3hTn3Srzmaf9FHfQiCt8R0CDENZtHICcXt1RzTEdEwFAikbHJWVRGZ4p7GqizeqO1iGQ1oj/jpxCHTee2vuYGeH1llx+CFwEWSSfN0RY5B20EXb5q3wnaYITBW6KthfQ/HZyqVTa/VfBfvGn8ZE/HEHkOpTfMXZRKL1adQBQGweJVjLU7CdDQVn09DF6QSRlN897u6ovhY+dPB18VnzwP5DjeIVGNpxr8/y+FYYZYvd2hLTi8c5OI4iIgJ2cjvsVHsUMWipA7SE0vgswIDAQAB",

@@ -4,6 +4,7 @@
   "description": "The Offline Wallet for Ethereum, Bitcoin",
   "main": "index.sh",
   "scripts": {
+    "test": "jest",
     "start": "webpack-dev-server",
     "build": "rimraf dist && webpack",
     "build.web.test": "rimraf dist && webpack --config webpack.web.test.config.js",
