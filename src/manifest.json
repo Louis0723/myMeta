@@ -17,14 +17,14 @@
     "default_title": "The Wallet",
     "default_icon": "img/logo_16.png"
   },
-  
   "content_scripts": [{
-    "js": ["background.js"],
+    "js": ["content.js"],
     "matches": ["<all_urls>"],
     "run_at": "document_start"
   }],
   "permissions": ["storage", "http://*/", "https://*/"]
 //  在網址旁邊
+
   //    "page_action": { 
   //     "default_icon": "icons/foo.png", // 可選
   //     "default_title": "Tooltip title",    // 可選

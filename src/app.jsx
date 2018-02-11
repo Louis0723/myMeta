@@ -3,38 +3,33 @@ import { LoginComponent } from './page/login';
 import { MainComponent } from './page/main';
 import { Grid, Row, Col } from 'react-bootstrap';
 import UserDomain from "./domain/userDomain";
-import {LoginState} from "./vo/state/top_state";
+import {LoginState, TopState ,AppState} from "./vo/state/top_state";
+import {observer} from "mobx-react/index";
 
+@observer
 export class AppComponent extends React.Component {
+	topState = new TopState();
   constructor(props) {
     super(props);
-    this.state = {
-      loginUser: null,
-    }
 	  let loginState = new LoginState();
+	  this.topState.loginState = loginState;
+	  this.topState.appState = new AppState();
 	  this.loginState = loginState;
   }
-  Login(loginUser) {
-	  UserDomain.loginUser = loginUser;
-    this.setState({ loginUser });
+  Login(privateKey) {
+	  this.loginState.privateKey = privateKey;
+    // UserDomain.loginUser = loginUser;
+    // this.setState({ loginUser });
   }
   Logout() {
-    let loginUser = UserDomain.loginUser;
-    if(loginUser) {
-        loginUser.privateKey = '';
-    }
-    this.setState({ loginUser});
+	  this.loginState.privateKey = '';
   }
   render() {
-    let loginUser = UserDomain.loginUser;
-	  let privateKey = '';
-    if(loginUser){
-	    privateKey = loginUser.privateKey;
-    }
+	  let privateKey = this.loginState.privateKey;//is Login Type
       return (
       <Grid><Row><Col xs={10} xsOffset={1} sm={8} smOffset={2} md={6} mdOffset={3}>
-        {privateKey ? <MainComponent privateKey={privateKey} logout={this.Logout.bind(this)} /> :
-		        <LoginComponent loginState={this.loginState} login={this.Login.bind(this)} />}
+        {privateKey ? <MainComponent topState={this.topState} privateKey={privateKey} logout={this.Logout.bind(this)} /> :
+		        <LoginComponent loginState={this.topState.loginState} login={this.Login.bind(this)} />}
       </Col></Row></Grid>
     );
   }

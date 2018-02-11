@@ -21,7 +21,10 @@ module.exports = {
       './index.jsx',
     ],
     background: [ //background
-      './background.js',
+      './background.ts',
+    ],
+    content: [ //content
+        './content.ts',
     ],
     // electronMain:[
     //   './electronMain.js'
@@ -130,7 +133,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', //Name of file in ./docs/
       template: 'index.html', //Name of template in ./src
-      excludeChunks: ['background'],
+      chunks: ['vendorStyles','app'],
       hash: true,
     }),
     // new webpack.optimize.CommonsChunkPlugin({ // 還不是很清楚作用

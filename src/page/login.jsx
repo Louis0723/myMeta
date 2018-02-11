@@ -114,7 +114,7 @@ export class LoginComponent extends React.Component {
 			return;
 		}
 		if (privateKey.length === 66 || privateKey.length === 64) {//如果長度正確
-			this.props.login(user);
+			this.props.login(privateKey);
 		} else {//私鑰長度不正確
 
 		}
@@ -128,6 +128,29 @@ export class LoginComponent extends React.Component {
 		let toggleButtonValue = this.loginState.loginType;
 		return (
 				<div>
+					<button onClick={
+						()=>{
+							//查詢當前前台活動的頁簽
+							// chrome.tabs.query({active: true, currentWindow: true}, function (t) {
+							// 	alert(JSON.stringify(t));
+							// })
+							//查詢當前前台活動的頁簽
+							if(chrome && chrome.tabs){
+								let port = chrome.runtime.connect();
+								port.postMessage(`Hello Backed`);
+								port.onMessage.addListener((message, port) => {
+									alert(`YouHaveMessageBack: ${message}`);
+								});
+
+								// chrome.runtime.sendMessage({id: "The Wallet", state: "run"}, function (response) {
+								// 	alert(`responses:${response}`);
+								// });
+							}else{
+								alert('No In Chrome!');
+							}
+
+						}
+					}>測試按鈕!</button>
 					<Form onSubmit={this.loginBtn.bind(this)}>
 						<h1>{this.name}</h1>
 						<FormGroup onChange={this.changeLoginTypeBtn.bind(this)}>
